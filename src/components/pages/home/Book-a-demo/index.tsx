@@ -1,10 +1,8 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Input } from "@/components/ui/input";
 import { SectionBadge } from "@/components/ui/section-badge";
 import { motion } from "framer-motion"; // Corrected the import (assuming framer-motion is being used)
 import { Button } from "@/components/ui/button";
-import { BackgroundBeams } from "@/components/ui/background-beams";
 
 function BookADemo() {
   // State to track whether the component is mounted on the client-side

@@ -33,7 +33,11 @@ interface Props {
 }
 
 const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
-  const ref = useClickOutside(() => setIsOpen(false));
+  const ref = useClickOutside(() => {
+    if (!open) {
+      setIsOpen(false);
+    }
+  });
 
   const variants = {
     open: { opacity: 1, y: 20 },

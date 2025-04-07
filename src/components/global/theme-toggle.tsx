@@ -2,24 +2,26 @@
 
 import { Toggle } from "@/components/ui/toggle";
 import { Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";  // Import next-themes
+import { useTheme } from "next-themes"; // Import next-themes
 
 function ToggleTheme() {
-  const { theme, setTheme } = useTheme();  // Access the current theme and setTheme function
+  const { theme, setTheme } = useTheme(); // Access the current theme and setTheme function
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");  // Toggle between light and dark mode
+    setTheme(theme === "dark" ? "light" : "dark"); // Toggle between light and dark mode
   };
 
   return (
     <div
-      className={`transition-colors rounded-lg duration-500 ease-in-out ${theme === "dark" ? "bg-zinc-950" : "bg-white"}`} // Add smooth transition for background color
+      className={`transition-colors rounded-lg duration-500 ease-in-out ${
+        theme === "dark" ? "bg-zinc-950" : "bg-white"
+      }`} // Add smooth transition for background color
     >
       <Toggle
         variant="outline"
         className="group size-9 data-[state=on]:bg-transparent data-[state=on]:hover:bg-muted"
-        pressed={theme === "dark"}  // Check if the current theme is dark
-        onPressedChange={toggleTheme}  // Toggle theme when the toggle is pressed
+        pressed={theme === "dark"} // Check if the current theme is dark
+        onPressedChange={toggleTheme} // Toggle theme when the toggle is pressed
         aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       >
         <Moon

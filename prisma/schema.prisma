@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Gym {
+  id             String        @id @default(uuid())
+  name           String
+  logo           String
+  address        String
+  phoneNumber    String
+  email          String
+  website        String?
+  slogan         String
+  subdomain      String        @unique
+  description    String
+  isVerified     Boolean       @default(false)
+  isActive       Boolean       @default(true)
+  isTrial        Boolean       @default(true)
+  trialEndsAt    DateTime?
+  trialStartedAt DateTime?
+  plan           PlanType      @default(FREE)
+  planStartedAt  DateTime?
+  planEndsAt     DateTime?
+  planStatus     String        @default("active")
+  GST_Number     String?
+  GST_Registered Boolean       @default(false)
+  License_Number String?
+  gymOwnerId     String
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  gymOwner       GymOwner      @relation(fields: [gymOwnerId], references: [id])
+  members        Member[]
+  subscription   Subscription?
+}
+
+model GymOwner {
+  id          String   @id @default(uuid())
+  clerkId     String   @unique
+  oauth       Provider
+  first_name  String?
+  last_name   String?
+  avatar      String?
+  email       String   @unique
+  phoneNumber String?
+  role        Role?    @default(GYM_OWNER)
+  gymId       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  gym         Gym[]
+}
+
+model Member {
+  id           String   @id @default(uuid())
+  fullName     String
+  email        String   @unique
+  phoneNumber  String?  @unique
+  passwordHash String
+  gymId        String
+  isVerified   Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  gym          Gym      @relation(fields: [gymId], references: [id])
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  gymId     String   @unique
+  plan      PlanType
+  status    String   @default("active")
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  gym       Gym      @relation(fields: [gymId], references: [id])
+}
+
+model Payment {
+  id        String   @id @default(uuid())
+  gymId     String
+  amount    Float
+  currency  String
+  status    String   @default("pending")
+  createdAt DateTime @default(now())
+}
+
+enum Role {
+  GYM_OWNER
+  MEMBER
+}
+
+enum PlanType {
+  FREE
+  BASIC
+  PREMIUM
+}
+
+enum Provider {
+  oauth_google
+  oauth_apple
+}

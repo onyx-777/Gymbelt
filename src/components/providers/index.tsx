@@ -4,10 +4,14 @@ import React from "react";
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      afterSignOutUrl={"/"}
+      signInForceRedirectUrl={"/app"}
+      signUpUrl="/sign-in"
+    >
       <ThemeProvider
         attribute="class"
-        defaultTheme="dark"
+        defaultTheme="system"
         enableSystem
         disableTransitionOnChange
       >

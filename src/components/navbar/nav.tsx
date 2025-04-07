@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useClerk } from "@clerk/nextjs";
 import { ArrowRightIcon, MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import Wrapper from "../global/wrapper";
@@ -13,8 +12,11 @@ import { ThemeToggle } from "../ui/theme-toggle";
 import { motion } from "motion/react";
 import Image from "next/image";
 
-const Navbar = () => {
-  const { user } = useClerk();
+type Props = {
+  user: string | undefined;
+};
+
+const Nav = ({ user }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [mounted, setMounted] = useState(false); // Track mounting state
 
@@ -47,7 +49,7 @@ const Navbar = () => {
         animate={{ y: 0 }}
         transition={{
           duration: 1,
-          delay : 1.5,
+          delay: 1,
           ease: "backOut",
         }}
         className="fixed top-4 inset-x-0 mx-auto max-w-6xl px-2 md:px-12 z-[100] transform th"
@@ -78,7 +80,7 @@ const Navbar = () => {
                     asChild
                     className="hover:translate-y-0 hover:scale-100"
                   >
-                    <Link href="/auth/signin">Login</Link>
+                    <Link href="/sign-in">Login</Link>
                   </Button>
                   <Button size="sm" asChild className="hidden sm:flex">
                     <Link href="/auth/signup">
@@ -105,7 +107,10 @@ const Navbar = () => {
               <Button
                 size="icon"
                 variant="ghost"
-                onClick={() => setIsOpen((prev) => !prev)}
+                onClick={() => {
+                  setIsOpen((prev) => !prev);
+                  console.log("x clicked");
+                }}
                 className="lg:hidden p-2 w-8 h-8"
               >
                 {isOpen ? (
@@ -123,4 +128,4 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default Nav;

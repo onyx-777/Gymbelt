@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/pages/home/hero-section/hero-section";
-import { Icons } from "@/components/ui/icons";
 
 export default function Hero() {
   return (
@@ -16,8 +15,8 @@ export default function Hero() {
         description="Think of someone running your gym for you—doing all the work, from managing memberships and payments to tracking progress—while all the money goes to you."
         actions={[
           {
-            text: "Automate gym",
-            href: "/docs/getting-started",
+            text: "Automate Gym",
+            href: "/register",
             variant: "default",
           },
           {

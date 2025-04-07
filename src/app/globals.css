@@ -1,11 +1,14 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@import "uploadthing/tw/v4";
+@source "../../node_modules/@uploadthing/react/dist";
+
 /* Custom properties and theme-related definitions */
 @custom-variant dark (&:is(.dark *));
 
-@theme{
-  --color-theme : oklch(0.54 0.2466 293.01) ;
+@theme {
+  --color-theme: oklch(0.54 0.2466 293.01);
 }
 
 @theme inline {
@@ -78,7 +81,7 @@
       opacity: 1;
     }
   }
-  
+
   /* Keyframes for zoomIn */
   @keyframes zoomIn {
     0% {
@@ -99,6 +102,111 @@
 
 .animate-appear-zoom {
   animation: zoomIn 1s ease-in-out;
+}
+
+.radar-map-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 16px;
+  padding: 16px;
+}
+
+.autocomplete-container {
+  z-index: 1;
+  position: relative;
+}
+
+.map-container {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.loading-container,
+.error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+}
+
+.error-container {
+  color: #dc2626;
+}
+
+/* Spinner blade settings */
+@layer components {
+  .spinner-blade {
+    @apply absolute h-[20%] w-[8%] bg-foreground rounded-[1px];
+    animation: spinner-blade 1s linear infinite;
+    will-change: opacity;
+    top: 37%;
+    left: 44%;
+  }
+
+  .spinner-blade:nth-child(1) {
+    transform: rotate(0deg) translateY(-130%);
+    animation-delay: -1.667s;
+  }
+  .spinner-blade:nth-child(2) {
+    transform: rotate(30deg) translateY(-130%);
+    animation-delay: -1.583s;
+  }
+  .spinner-blade:nth-child(3) {
+    transform: rotate(60deg) translateY(-130%);
+    animation-delay: -1.5s;
+  }
+  .spinner-blade:nth-child(4) {
+    transform: rotate(90deg) translateY(-130%);
+    animation-delay: -1.417s;
+  }
+  .spinner-blade:nth-child(5) {
+    transform: rotate(120deg) translateY(-130%);
+    animation-delay: -1.333s;
+  }
+  .spinner-blade:nth-child(6) {
+    transform: rotate(150deg) translateY(-130%);
+    animation-delay: -1.25s;
+  }
+  .spinner-blade:nth-child(7) {
+    transform: rotate(180deg) translateY(-130%);
+    animation-delay: -1.167s;
+  }
+  .spinner-blade:nth-child(8) {
+    transform: rotate(210deg) translateY(-130%);
+    animation-delay: -1.083s;
+  }
+  .spinner-blade:nth-child(9) {
+    transform: rotate(240deg) translateY(-130%);
+    animation-delay: -1s;
+  }
+  .spinner-blade:nth-child(10) {
+    transform: rotate(270deg) translateY(-130%);
+    animation-delay: -0.917s;
+  }
+  .spinner-blade:nth-child(11) {
+    transform: rotate(300deg) translateY(-130%);
+    animation-delay: -0.833s;
+  }
+  .spinner-blade:nth-child(12) {
+    transform: rotate(330deg) translateY(-130%);
+    animation-delay: -0.75s;
+  }
+}
+
+/* Spinner blade animation */
+@keyframes spinner-blade {
+  0% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 0.25;
+  }
+  100% {
+    opacity: 0.25;
+  }
 }
 
 /* Global root variables */
@@ -136,7 +244,7 @@
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
   --brand: hsl(27 96% 61%);
-  --theme: oklch(0.54 0.2466 293.01);;
+  --theme: oklch(0.54 0.2466 293.01);
   --brand-foreground: hsl(31 97% 72%);
   transition: background-color 0.5s ease, color 0.5s ease;
 }
@@ -191,7 +299,9 @@
   }
 
   /* Example of specific theme-dependent elements */
-  .card, .popover, .sidebar {
+  .card,
+  .popover,
+  .sidebar {
     transition: background-color 0.5s ease, color 0.5s ease;
   }
 }

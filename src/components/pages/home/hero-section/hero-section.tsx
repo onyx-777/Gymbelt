@@ -2,14 +2,13 @@
 
 import { useState, useEffect } from "react"; // Import useEffect
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRightIcon } from "lucide-react";
 import { Mockup, MockupFrame } from "@/components/ui/mockup";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import { SectionBadge } from "@/components/ui/section-badge";
+import Link from "next/link";
 
 interface HeroAction {
   text: string;
@@ -112,10 +111,13 @@ export function HeroSection({
           <div className="relative z-10 flex justify-center gap-4 mt-6">
             {actions.map((action, index) => (
               <Button key={index} size="lg" asChild>
-                <a href={action.href} className="flex items-center gap-2 font-medium text-lg">
+                <Link
+                  href={action.href}
+                  className="flex items-center gap-2 font-medium text-lg"
+                >
                   {action.icon}
                   {action.text}
-                </a>
+                </Link>
               </Button>
             ))}
           </div>
