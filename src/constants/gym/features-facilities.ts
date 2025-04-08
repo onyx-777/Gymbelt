@@ -150,3 +150,36 @@ export const facilities: readonly GymServices_FacilitiesTypes[] = [
       "Dedicated space for practicing yoga, including mats and other props.",
   },
 ] as const;
+
+export const gymTypes: readonly GymServices_FacilitiesTypes[] = [
+  {
+    id: 1,
+    name: "Commercial Gym",
+    description:
+      "Large gyms with a variety of fitness equipment for general fitness, weight loss, and strength training. These are the most common gyms in urban and semi-urban areas.",
+  },
+  {
+    id: 2,
+    name: "Fitness Studio",
+    description:
+      "Smaller, specialized gyms offering classes like Yoga, Zumba, Pilates, and HIIT. These are common in urban areas, especially in cities like Bangalore, Mumbai, and Delhi.",
+  },
+  {
+    id: 3,
+    name: "Bodybuilding Gym",
+    description:
+      "Gyms focused primarily on strength training and bodybuilding with specialized equipment for muscle development, commonly found in larger cities.",
+  },
+  {
+    id: 4,
+    name: "Yoga Studio",
+    description:
+      "Gyms or studios that offer yoga-based classes. Given the cultural importance of yoga in India, these are prevalent in many cities, particularly for those focused on holistic wellness.",
+  },
+  {
+    id: 5,
+    name: "Women’s Only Gym",
+    description:
+      "Gyms designed for women, offering a comfortable and non-intimidating environment for fitness. These are quite popular in urban areas, particularly in places like Delhi and Mumbai.",
+  },
+] as const;

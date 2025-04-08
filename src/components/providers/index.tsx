@@ -6,7 +6,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
     <ClerkProvider
       afterSignOutUrl={"/"}
-      signInForceRedirectUrl={"/app"}
+      signInForceRedirectUrl={"/onboarding"}
       signUpUrl="/sign-in"
     >
       <ThemeProvider

@@ -11,9 +11,10 @@ import { Input } from "@/components/ui/input";
 interface Props {
   placeholder: string;
   registerName: OnboardingFieldNames;
+  label: string;
 }
 
-const OnboardingInput = ({ placeholder, registerName }: Props) => {
+const OnboardingInput = ({ placeholder, registerName, label }: Props) => {
   const { register } = useFormContext<GymInfoOnboardingSchemaType>();
   return (
     <motion.div
@@ -21,13 +22,13 @@ const OnboardingInput = ({ placeholder, registerName }: Props) => {
       animate={{ opacity: 1, y: 0 }} // Animation when mounted
       exit={{ opacity: 0 }} // Animation when unmounting
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="flex flex-col items-center justify-center h-ful w-full"
+      className="flex flex-col items-center justify-center h-full w-full max-w-sm"
     >
-      <h1 className="text-3xl font-bold">Enter {registerName}?</h1>
+      <h1 className="lg:text-lg sm:tracking-wide text-left w-full">{label}</h1>
       <Input
         type="text"
         placeholder={placeholder}
-        className="mt-4 px-4 py-2 border rounded-lg w-80"
+        className="mt-4 py-2 border rounded-lg w-full"
         {...register(registerName, {
           required: "Gym name is required",
           minLength: {

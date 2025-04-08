@@ -13,28 +13,27 @@ const OnboardingNav = () => {
 
   return (
     <>
-      {step > 0 && (
-        <div className="bottom-10 fixed max-w-3xl flex justify-between items-center h-full w-full px-5 p-3">
+      <div className="max-w-md flex flex-col justify-between gap-3 items-center h-full w-full">
+        {step < totalSteps && (
           <Button
-            className="space-x-2 flex cursor-pointer"
-            variant={"secondary"}
-            onClick={decreaseStep}
+            className="space-x-2 flex cursor-pointer w-full p-5 bg-primary"
+            variant={"default"}
+            onClick={increaseStep}
+            size={"lg"}
           >
-            <ChevronLeft className="text-red-600" />
-            <p>Previous </p>
+            <p className="font-medium">Next Step</p>
+            <ChevronRight className="text-muted-foreground" />
           </Button>
-          {step < totalSteps && (
-            <Button
-              className="space-x-2 flex cursor-pointer"
-              variant={"default"}
-              onClick={increaseStep}
-            >
-              <p className="font-medium">Next Step</p>
-              <ChevronRight className="text-muted-foreground" />
-            </Button>
-          )}
-        </div>
-      )}
+        )}
+        <Button
+          className="space-x-2 flex cursor-pointer w-full p-5"
+          variant={"ghost"}
+          onClick={decreaseStep}
+        >
+          <ChevronLeft />
+          <p>Previous </p>
+        </Button>
+      </div>
     </>
   );
 };

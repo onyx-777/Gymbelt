@@ -51,7 +51,7 @@ interface RegistrationState {
 }
 
 const initialState = {
-  step: 3,
+  step: 0,
   basicInfo: {
     gymName: "",
     gymAddress: "",

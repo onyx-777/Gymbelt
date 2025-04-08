@@ -71,7 +71,7 @@ const Nav = ({ user }: Props) => {
             <div className="items-center flex gap-2 lg:gap-4">
               {user ? (
                 <Button size="sm" asChild className="hidden sm:flex">
-                  <Link href="/app">Dashboard</Link>
+                  <Link href="/onboarding">Dashboard</Link>
                 </Button>
               ) : (
                 <>

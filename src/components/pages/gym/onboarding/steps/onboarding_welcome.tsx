@@ -1,84 +1,75 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import useStore from "@/context/gym-registration/gym-setup-context";
+import Image from "next/image";
 
-const OnboardingHome = () => {
+interface Props {
+  firstName: string;
+}
+
+const OnboardingHome = ({ firstName }: Props) => {
   const { setStep } = useStore();
-  const [hasError, setHasError] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  // Wait for client-side hydration
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleLottieError = (error: any) => {
-    console.error("Lottie Error:", error);
-    setHasError(true);
-  };
 
   return (
     <AnimatePresence key={"onboarding-home"}>
-      <div className="flex flex-col justify-center items-center w-full h-screen p-4 gap-14 xl:gap-10">
-        {isMounted && !hasError && (
-          <motion.div
-            initial={{ opacity: 0, y: -200 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: "easeInOut", delay: 0.7 }}
-            exit={{ opacity: 0, y: -200 }}
-            className="hidden xl:block w-full relative"
-            style={{ height: "300px" }} // Fixed height container
-          >
-            <DotLottieReact
-              src="https://lottie.host/5eb8be24-c80d-4b7a-b290-d2307245bf1d/4T19IqQXBy.lottie"
-              loop
-              autoplay
-              style={{
-                width: "100%",
-                height: "100%",
-                position: "absolute",
-                top: 0,
-                left: 0,
-              }}
-              renderConfig={{
-                devicePixelRatio: 1, // Force 1x pixel ratio
-              }}
-              onError={handleLottieError}
-            />
-          </motion.div>
-        )}
-
-        {hasError && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="w-64 h-64 bg-muted rounded-lg flex items-center justify-center"
-          >
-            <span className="text-muted-foreground">Animation unavailable</span>
-          </motion.div>
-        )}
-
+      <div className="flex flex-col justify-center items-center w-full h-fit gap-14 xl:gap-10">
         <motion.div
           initial={{ opacity: 0, y: -100 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: "easeInOut" }}
           exit={{ opacity: 0, y: -100 }}
-          className="w-full text-center space-y-8"
+          className="w-full text-center space-y-8 flex justify-center items-center flex-col"
         >
-          <h1 className="text-5xl">Welcome</h1>
-          <p className="text-xl text-muted-foreground">
+          <motion.div
+            initial={{ opacity: 0, scale: 0 }}
+            animate={{
+              opacity: 1,
+              scale: 1,
+              transition: {
+                type: "spring",
+                stiffness: 260,
+                damping: 20,
+              },
+            }}
+            exit={{
+              opacity: 0,
+              scale: 0,
+              transition: {
+                duration: 0.5,
+              },
+            }}
+            className="relative w-40 aspect-square mb-20"
+          >
+            <Image
+              src={"/assets/logo.png"}
+              alt="gymbelt"
+              fill
+              className="object-cover dark:invert-100"
+            />
+          </motion.div>
+
+          <h1 className="text-3xl lg:text-5xl">
+            Welcome{firstName && <>, {firstName}!</>}
+          </h1>
+          <p className="text-lg lg:text-xl text-muted-foreground">
             Let&apos;s set up your gym in just a few quick steps. We&apos;ll
             handle the rest—easy peasy!
           </p>
         </motion.div>
         <motion.div
-          initial={{ opacity: 0, y: 200 }}
+          initial={{ opacity: 0, y: 100 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeInOut", delay: 1 }}
+          exit={{
+            opacity: 0,
+            y: 100,
+            transition: {
+              duration: 0.3,
+              ease: "easeOut",
+            },
+          }}
+          transition={{ duration: 0.5, ease: "easeInOut" }}
           className="w-full text-center space-y-8"
         >
           <Button
