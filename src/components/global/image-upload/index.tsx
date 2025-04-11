@@ -67,7 +67,7 @@ const UploadFile = ({ field, form }: { field: any; form: any }) => {
   return (
     <div
       className={cn(
-        "relative h-64 w-full border-2 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl flex justify-center items-center",
+        "relative h-56 w-full border-2 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl flex justify-center items-center",
         {
           "ring-blue-900/25 bg-blue-900/10": isDragOver,
         }
@@ -131,7 +131,7 @@ const UploadFile = ({ field, form }: { field: any; form: any }) => {
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/40 opacity-0 transition-opacity group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-background/40 opacity-0 transition-opacity group-hover:opacity-100" />
               <div className="absolute inset-0 flex items-center justify-center gap-2 opacity-0 transition-opacity group-hover:opacity-100">
                 <button
                   onClick={handleRemove}

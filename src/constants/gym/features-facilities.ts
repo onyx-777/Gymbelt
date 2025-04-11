@@ -154,7 +154,7 @@ export const facilities: readonly GymServices_FacilitiesTypes[] = [
 export const gymTypes: readonly GymServices_FacilitiesTypes[] = [
   {
     id: 1,
-    name: "Commercial Gym",
+    name: "All-In-Online",
     description:
       "Large gyms with a variety of fitness equipment for general fitness, weight loss, and strength training. These are the most common gyms in urban and semi-urban areas.",
   },
@@ -166,7 +166,7 @@ export const gymTypes: readonly GymServices_FacilitiesTypes[] = [
   },
   {
     id: 3,
-    name: "Bodybuilding Gym",
+    name: "Bodybuilding",
     description:
       "Gyms focused primarily on strength training and bodybuilding with specialized equipment for muscle development, commonly found in larger cities.",
   },
@@ -178,7 +178,7 @@ export const gymTypes: readonly GymServices_FacilitiesTypes[] = [
   },
   {
     id: 5,
-    name: "Women’s Only Gym",
+    name: "Women's Only",
     description:
       "Gyms designed for women, offering a comfortable and non-intimidating environment for fitness. These are quite popular in urban areas, particularly in places like Delhi and Mumbai.",
   },

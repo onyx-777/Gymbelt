@@ -10,6 +10,7 @@ export default function FileUpload() {
       <UploadDropzone
         appearance={{ button: "bg-black", label: "text-black" }}
         endpoint={"imageUploader"}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         onClientUploadComplete={(res: any) => {
           if (res && res[0]) {
             console.log(res[0].url);

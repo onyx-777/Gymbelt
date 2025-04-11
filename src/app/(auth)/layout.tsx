@@ -8,7 +8,7 @@ interface LayoutProps {
 
 export default async function Layout({ children }: LayoutProps) {
   const user = await currentUser();
-  if (user) redirect("/app");
+  if (user) redirect("/onboarding");
 
   return <>{children}</>;
 }

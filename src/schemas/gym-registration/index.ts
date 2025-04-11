@@ -3,11 +3,11 @@ import { z } from "zod";
 // Personal Information Schema
 
 export const GymBasicInfoSchema = z.object({
-  gymName: z.string().min(1, "Gym name is required"),
-  gymType: z.string().min(1, "Gym type is required"),
-  gymAddress: z.string().min(1, "Address is required"),
-  gymPhoneNumber: z.string().min(1, "Phone number is required"),
-  gymEmail: z.string().email("Invalid email address"),
+  gymName: z.string().min(1),
+  gymType: z.string().min(1),
+  gymAddress: z.string().min(1),
+  gymPhoneNumber: z.string().min(1),
+  gymEmail: z.string().email(),
 });
 
 export const GymBrandingSchema = z.object({

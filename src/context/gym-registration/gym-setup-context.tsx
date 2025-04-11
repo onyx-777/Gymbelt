@@ -4,27 +4,45 @@ import { devtools } from "zustand/middleware";
 interface RegistrationState {
   step: number;
 
-  // Basic Info Form Data
-  basicInfo: {
-    gymPhoneNumber: string;
+  // Form Data
+  gymNameAddress: {
     gymName: string;
     gymAddress: string;
-    gymEmail: string;
+  };
+  gymType: {
     gymType: string;
   };
-
-  // Branding Form Data
-  brandingInfo: {
+  phoneEmail: {
+    gymPhoneNumber: string;
+    gymEmail: string;
+  };
+  logoWebsite: {
     gymLogo: string;
     gymWebsite: string;
+  };
+  sloganSubdomain: {
     slogan: string;
     subdomain: string;
   };
-
-  // Additional Info
-  additionalInfo: {
-    gymGSTNumber: string;
+  licenseGST: {
     gymLicenseNumber: string;
+    gymGSTNumber: string;
+  };
+  services: {
+    services: string[];
+  };
+  facilities: {
+    facilities: string[];
+  };
+  membership: {
+    planName: string;
+    services: string[];
+    facilities: string[];
+    duration: "1-Month" | "3-Month" | "6-Month" | "12-Month";
+    price: string;
+  }[];
+  payment: {
+    payment: string;
   };
 
   // Step Controls
@@ -33,17 +51,33 @@ interface RegistrationState {
   decreaseStep: () => void;
 
   // Form Data Setters
-  setBasicInfo: (data: Partial<RegistrationState["basicInfo"]>) => void;
-  setBrandingInfo: (data: Partial<RegistrationState["brandingInfo"]>) => void;
-  setAdditionalInfo: (
-    data: Partial<RegistrationState["additionalInfo"]>
+  setGymNameAddress: (
+    data: Partial<RegistrationState["gymNameAddress"]>
   ) => void;
+  setGymType: (data: Partial<RegistrationState["gymType"]>) => void;
+  setPhoneEmail: (data: Partial<RegistrationState["phoneEmail"]>) => void;
+  setLogoWebsite: (data: Partial<RegistrationState["logoWebsite"]>) => void;
+  setSloganSubdomain: (
+    data: Partial<RegistrationState["sloganSubdomain"]>
+  ) => void;
+  setLicenseGST: (data: Partial<RegistrationState["licenseGST"]>) => void;
+  setServices: (data: Partial<RegistrationState["services"]>) => void;
+  setFacilities: (data: Partial<RegistrationState["facilities"]>) => void;
+  setMembership: (data: RegistrationState["membership"]) => void;
+  setPayment: (data: Partial<RegistrationState["payment"]>) => void;
 
   // Get Complete Data
   getCompleteData: () => {
-    basicInfo: RegistrationState["basicInfo"];
-    brandingInfo: RegistrationState["brandingInfo"];
-    additionalInfo: RegistrationState["additionalInfo"];
+    gymNameAddress: RegistrationState["gymNameAddress"];
+    gymType: RegistrationState["gymType"];
+    phoneEmail: RegistrationState["phoneEmail"];
+    logoWebsite: RegistrationState["logoWebsite"];
+    sloganSubdomain: RegistrationState["sloganSubdomain"];
+    licenseGST: RegistrationState["licenseGST"];
+    services: RegistrationState["services"];
+    facilities: RegistrationState["facilities"];
+    membership: RegistrationState["membership"];
+    payment: RegistrationState["payment"];
   };
 
   // Reset Store
@@ -51,23 +85,39 @@ interface RegistrationState {
 }
 
 const initialState = {
-  step: 0,
-  basicInfo: {
+  step: 10,
+  gymNameAddress: {
     gymName: "",
     gymAddress: "",
-    gymPhoneNumber: "",
-    gymEmail: "",
+  },
+  gymType: {
     gymType: "",
   },
-  brandingInfo: {
+  phoneEmail: {
+    gymPhoneNumber: "",
+    gymEmail: "",
+  },
+  logoWebsite: {
     gymLogo: "",
     gymWebsite: "",
+  },
+  sloganSubdomain: {
     slogan: "",
     subdomain: "",
   },
-  additionalInfo: {
-    gymGSTNumber: "",
+  licenseGST: {
     gymLicenseNumber: "",
+    gymGSTNumber: "",
+  },
+  services: {
+    services: [],
+  },
+  facilities: {
+    facilities: [],
+  },
+  membership: [],
+  payment: {
+    payment: "",
   },
 };
 
@@ -75,33 +125,81 @@ const useStore = create<RegistrationState>()(
   devtools((set, get) => ({
     ...initialState,
 
+    // Step Controls
     setStep: (newStep: number) => set({ step: newStep }),
     increaseStep: () => set((state) => ({ step: state.step + 1 })),
     decreaseStep: () => set((state) => ({ step: state.step - 1 })),
 
-    setBasicInfo: (data) =>
+    // Form Data Setters
+    setGymNameAddress: (data) =>
       set((state) => ({
-        basicInfo: { ...state.basicInfo, ...data },
+        gymNameAddress: { ...state.gymNameAddress, ...data },
       })),
 
-    setBrandingInfo: (data) =>
+    setGymType: (data) =>
       set((state) => ({
-        brandingInfo: { ...state.brandingInfo, ...data },
+        gymType: { ...state.gymType, ...data },
       })),
 
-    setAdditionalInfo: (data) =>
+    setPhoneEmail: (data) =>
       set((state) => ({
-        additionalInfo: { ...state.additionalInfo, ...data },
+        phoneEmail: { ...state.phoneEmail, ...data },
       })),
 
+    setLogoWebsite: (data) =>
+      set((state) => ({
+        logoWebsite: { ...state.logoWebsite, ...data },
+      })),
+
+    setSloganSubdomain: (data) =>
+      set((state) => ({
+        sloganSubdomain: { ...state.sloganSubdomain, ...data },
+      })),
+
+    setLicenseGST: (data) =>
+      set((state) => ({
+        licenseGST: { ...state.licenseGST, ...data },
+      })),
+
+    setServices: (data) =>
+      set((state) => ({
+        services: { ...state.services, ...data },
+      })),
+
+    setFacilities: (data) =>
+      set((state) => ({
+        facilities: { ...state.facilities, ...data },
+      })),
+
+    setMembership: (data) =>
+      set(() => ({
+        membership: data, // Ensuring data is valid
+      })),
+
+    setPayment: (data) =>
+      set((state) => ({
+        payment: { ...state.payment, ...data },
+      })),
+
+    // Get Complete Data
     getCompleteData: () => ({
-      basicInfo: get().basicInfo,
-      brandingInfo: get().brandingInfo,
-      additionalInfo: get().additionalInfo,
+      gymNameAddress: get().gymNameAddress,
+      gymType: get().gymType,
+      phoneEmail: get().phoneEmail,
+      logoWebsite: get().logoWebsite,
+      sloganSubdomain: get().sloganSubdomain,
+      licenseGST: get().licenseGST,
+      services: get().services,
+      facilities: get().facilities,
+      membership: get().membership,
+      payment: get().payment,
     }),
 
+    // Reset Store
     resetStore: () => set(initialState),
   }))
 );
 
 export default useStore;
+
+export const TOTAL_ONBOARDING_STEPS = 10;
