@@ -41,6 +41,7 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
       setStateMemberships(store.membership);
       console.log("membership pulled from store : ", store.membership);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
@@ -52,6 +53,7 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
       "membership complete data in store : ",
       store.getCompleteData().membership
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateMemberships]);
 
   const handleMemberShipDelete = (planName: string) => {
