@@ -20,7 +20,6 @@ import {
   licenseGSTSchema,
   logoWebsiteSchema,
   membershipSchema,
-  paymentSchema,
   phoneEmailSchema,
   servicesSchema,
   sloganSubdomainSchema,
@@ -38,6 +37,7 @@ import {
 import { IconStretching } from "@tabler/icons-react";
 import OnboardingSelector from "./steps/onboarding-selector";
 import OnboardingMembershipCarousal from "./steps/onboarding_membership/onboarding_membership-carousal";
+import OnboardingCompleted from "./steps/onboarding-completed";
 
 type Props = {
   email: string;
@@ -147,13 +147,6 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
     },
   });
 
-  // 10. Payment Form
-  const methodsPayment = useForm<z.infer<typeof paymentSchema>>({
-    resolver: zodResolver(paymentSchema),
-    defaultValues: {
-      payment: "",
-    },
-  });
   const gymName = methodsGymNameAddress.getValues("gymName");
 
   console.log(gymName);
@@ -223,16 +216,12 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
       );
     } else if (store.step === 7) {
       // Store services data
-      store.setServices({
-        services: data.services,
-      });
+      store.setServices(data.services);
 
       console.log("services Info Stored:", store.getCompleteData().services);
     } else if (store.step === 8) {
       // Store facilities data
-      store.setFacilities({
-        facilities: data.facilities,
-      });
+      store.setFacilities(data.facilities);
 
       console.log(
         "facilities Info Stored:",
@@ -250,17 +239,9 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
 
       console.log(
         "membership Info Stored:",
-        store.getCompleteData().membership
+        store.getCompleteData().memberships
       );
-    } else if (store.step === 10) {
-      // Store payment data
-      store.setPayment({
-        payment: data.payment,
-      });
-
-      console.log("payment Info Stored:", store.getCompleteData().payment);
     }
-
     // After storing data, you can move to the next step (if needed)
     store.increaseStep();
   };
@@ -500,6 +481,9 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
           />
         );
 
+      case 10:
+        return <OnboardingCompleted />;
+
       default:
         break;
     }
@@ -555,8 +539,6 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                     ? methodsFacilities
                     : store.step === 9
                     ? methodsMembership // Added missing ternary operator here
-                    : store.step === 10
-                    ? methodsPayment
                     : methodsGymNameAddress // Default form for the first step
                 }
               />{" "}

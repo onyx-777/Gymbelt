@@ -23,7 +23,7 @@ const UploadFile = ({ field, form }: { field: any; form: any }) => {
       form.setValue(field.name, imageUrl); // Set the uploaded image URL in the form state
       setIsUploading(false);
 
-      toast("Upload Successful", {
+      toast.success("Upload Successful", {
         description: "Your image has been uploaded successfully.",
       });
     },
@@ -37,7 +37,7 @@ const UploadFile = ({ field, form }: { field: any; form: any }) => {
       const [file] = rejectedFiles;
       setIsDragOver(false);
       console.log("Error on drop rejected:", file);
-      toast(`${file.file.type} type is not supported.`, {
+      toast.error(`${file.file.type} type is not supported.`, {
         description: "Please choose a PNG, JPG, or JPEG image instead.",
       });
     },
@@ -59,7 +59,7 @@ const UploadFile = ({ field, form }: { field: any; form: any }) => {
   const handleRemove = () => {
     form.setValue(field.name, null); // Clear the gymLogo field in the form state
     setUploadProgress(0);
-    toast("Image Removed", {
+    toast.success("Image Removed", {
       description: "The uploaded image has been removed.",
     });
   };

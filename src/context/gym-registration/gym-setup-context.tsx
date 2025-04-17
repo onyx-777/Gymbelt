@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
-interface RegistrationState {
+export interface RegistrationState {
   step: number;
 
   // Form Data
@@ -28,22 +28,15 @@ interface RegistrationState {
     gymLicenseNumber: string;
     gymGSTNumber: string;
   };
-  services: {
-    services: string[];
-  };
-  facilities: {
-    facilities: string[];
-  };
-  membership: {
+  services: { services: string[] }; // Object with services array
+  facilities: { facilities: string[] }; // Object with facilities array
+  memberships: {
     planName: string;
     services: string[];
     facilities: string[];
     duration: "1-Month" | "3-Month" | "6-Month" | "12-Month";
     price: string;
   }[];
-  payment: {
-    payment: string;
-  };
 
   // Step Controls
   setStep: (newStep: number) => void;
@@ -61,10 +54,9 @@ interface RegistrationState {
     data: Partial<RegistrationState["sloganSubdomain"]>
   ) => void;
   setLicenseGST: (data: Partial<RegistrationState["licenseGST"]>) => void;
-  setServices: (data: Partial<RegistrationState["services"]>) => void;
-  setFacilities: (data: Partial<RegistrationState["facilities"]>) => void;
-  setMembership: (data: RegistrationState["membership"]) => void;
-  setPayment: (data: Partial<RegistrationState["payment"]>) => void;
+  setServices: (data: string[]) => void; // Set services as an array inside the services object
+  setFacilities: (data: string[]) => void; // Set facilities as an array inside the facilities object
+  setMemberships: (data: RegistrationState["memberships"]) => void;
 
   // Get Complete Data
   getCompleteData: () => {
@@ -76,8 +68,7 @@ interface RegistrationState {
     licenseGST: RegistrationState["licenseGST"];
     services: RegistrationState["services"];
     facilities: RegistrationState["facilities"];
-    membership: RegistrationState["membership"];
-    payment: RegistrationState["payment"];
+    memberships: RegistrationState["memberships"];
   };
 
   // Reset Store
@@ -109,16 +100,9 @@ const initialState = {
     gymLicenseNumber: "",
     gymGSTNumber: "",
   },
-  services: {
-    services: [],
-  },
-  facilities: {
-    facilities: [],
-  },
-  membership: [],
-  payment: {
-    payment: "",
-  },
+  services: { services: [] }, // Object containing services array
+  facilities: { facilities: [] }, // Object containing facilities array
+  memberships: [],
 };
 
 const useStore = create<RegistrationState>()(
@@ -161,24 +145,13 @@ const useStore = create<RegistrationState>()(
         licenseGST: { ...state.licenseGST, ...data },
       })),
 
-    setServices: (data) =>
-      set((state) => ({
-        services: { ...state.services, ...data },
-      })),
+    setServices: (data) => set({ services: { services: [...data] } }), // Setting services inside the object
 
-    setFacilities: (data) =>
-      set((state) => ({
-        facilities: { ...state.facilities, ...data },
-      })),
+    setFacilities: (data) => set({ facilities: { facilities: [...data] } }), // Setting facilities inside the object
 
-    setMembership: (data) =>
+    setMemberships: (data) =>
       set(() => ({
-        membership: data, // Ensuring data is valid
-      })),
-
-    setPayment: (data) =>
-      set((state) => ({
-        payment: { ...state.payment, ...data },
+        memberships: data, // Setting memberships array
       })),
 
     // Get Complete Data
@@ -191,8 +164,7 @@ const useStore = create<RegistrationState>()(
       licenseGST: get().licenseGST,
       services: get().services,
       facilities: get().facilities,
-      membership: get().membership,
-      payment: get().payment,
+      memberships: get().memberships,
     }),
 
     // Reset Store

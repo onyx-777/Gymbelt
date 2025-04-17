@@ -54,8 +54,8 @@ export const sloganSubdomainSchema = z.object({
     .max(100, "Slogan must be less than 100 characters"),
   subdomain: z
     .string()
-    .min(2, "Subdomain must be at least 2 characters")
-    .max(50, "Subdomain must be less than 50 characters")
+    .min(1, "Subdomain must be at least 1 characters")
+    .max(10, "Subdomain must be less than 10 characters")
     .regex(
       /^[a-z0-9-]+$/,
       "Subdomain can only contain lowercase letters, numbers, and hyphens"
@@ -96,36 +96,50 @@ export const membershipSchema = z.object({
   planName: z
     .string()
     .min(1, "Plan name is required")
-    .max(100, "Plan name must be less than 100 characters")
-    .optional(), // Making this field optional
+    .max(100, "Plan name must be less than 100 characters"),
 
   services: z
     .array(z.string())
     .min(1, "At least one service is required")
-    .max(10, "You can provide up to 10 services")
-    .optional(), // Making this field optional
-
+    .max(10, "You can provide up to 10 services"),
   facilities: z
     .array(z.string())
     .min(1, "At least one facility is required")
-    .max(10, "You can provide up to 10 facilities")
-    .optional(), // Making this field optional
-
-  duration: z.enum(["1-Month", "3-Month", "6-Month", "12-Month"]).optional(), // Making this field optional
+    .max(10, "You can provide up to 10 facilities"),
+  duration: z.enum(["1-Month", "3-Month", "6-Month", "12-Month"]),
 
   price: z
     .string()
-    .min(0, "Price must be greater than or equal to 0")
-    .max(10000, "Price must be less than or equal to 10000")
+    .min(1, "Price is required")
     .refine((val) => !isNaN(Number(val)), {
       message: "Price must be a valid number",
-    })
-    .optional(), // Making this field optional
+    }),
 });
+
+// 👇 Wrap the above schema in an array to accept multiple memberships
+export const membershipsSchema = z
+  .array(membershipSchema)
+  .min(1, { message: "At least one membership plan is required." });
+
 // 10. **Payment Schema**:
-export const paymentSchema = z.object({
-  payment: z
-    .string()
-    .min(5, "Payment details must be at least 5 characters")
-    .max(500, "Payment details must be less than 500 characters"),
+// export const paymentSchema = z.object({
+//   payment: z
+//     .string()
+//     .min(5, "Payment details must be at least 5 characters")
+//     .max(500, "Payment details must be less than 500 characters"),
+// });
+
+export const gymOnboardingSchema = z.object({
+  gymNameAddress: gymNameAddressSchema,
+  gymType: gymTypeSchema,
+  phoneEmail: phoneEmailSchema,
+  logoWebsite: logoWebsiteSchema,
+  sloganSubdomain: sloganSubdomainSchema,
+  licenseGST: licenseGSTSchema,
+  services: servicesSchema,
+  facilities: facilitiesSchema,
+  memberships: membershipsSchema,
+  // payment: paymentSchema,
 });
+
+export type GymOnboardingSchemaType = z.infer<typeof gymOnboardingSchema>;

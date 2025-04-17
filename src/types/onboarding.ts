@@ -8,7 +8,6 @@ import {
   licenseGSTSchema,
   logoWebsiteSchema,
   membershipSchema,
-  paymentSchema,
   phoneEmailSchema,
   servicesSchema,
   sloganSubdomainSchema,
@@ -44,8 +43,7 @@ export type OnboardingFormTypes =
   | UseFormReturn<z.infer<typeof licenseGSTSchema>> // For license and GST numbers
   | UseFormReturn<z.infer<typeof servicesSchema>> // For services
   | UseFormReturn<z.infer<typeof facilitiesSchema>> // For facilities
-  | UseFormReturn<z.infer<typeof membershipSchema>> // For membership details
-  | UseFormReturn<z.infer<typeof paymentSchema>>; // For payment details
+  | UseFormReturn<z.infer<typeof membershipSchema>>; // For membership details
 
 // A utility type that will help in extracting field names from OnboardingFields
 export type OnboardingFieldNames = keyof OnboardingFields;

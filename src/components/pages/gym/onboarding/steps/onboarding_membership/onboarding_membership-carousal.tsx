@@ -37,40 +37,40 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
   const store = useStore();
 
   React.useEffect(() => {
-    if (store.membership.length > 0) {
-      setStateMemberships(store.membership);
-      console.log("membership pulled from store : ", store.membership);
+    if (store.memberships.length > 0) {
+      setStateMemberships(store.memberships);
+      console.log("memberships pulled from store : ", store.memberships);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   React.useEffect(() => {
     if (stateMemberships.length > 0) {
-      store.setMembership(stateMemberships);
-      console.log("membership stored in store : ", store.membership);
+      store.setMemberships(stateMemberships);
+      console.log("memberships stored in store : ", store.memberships);
     }
     console.log(
-      "membership complete data in store : ",
-      store.getCompleteData().membership
+      "memberships complete data in store : ",
+      store.getCompleteData().memberships
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stateMemberships]);
 
   const handleMemberShipDelete = (planName: string) => {
-    // Filter out the membership with the matching planName
-    const updatedMemberships = store.membership.filter(
+    // Filter out the memberships with the matching planName
+    const updatedMemberships = store.memberships.filter(
       (item) => item.planName !== planName
     );
 
     // Update the store with the new filtered array
-    if (store.membership.length > 0) {
-      store.setMembership(updatedMemberships);
+    if (store.memberships.length > 0) {
+      store.setMemberships(updatedMemberships);
       setStateMemberships(updatedMemberships);
     }
 
-    console.log("membership : ", stateMemberships);
+    console.log("memberships : ", stateMemberships);
 
-    toast.success("Membership plan removed", {
+    toast.success("Memberships plan removed", {
       description: `${planName} plan has been removed successfully`,
     });
   };
@@ -101,34 +101,34 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
           <div className="flex flex-col justify-center items-center gap-7 w-full">
             <Carousel className="w-full max-w-xl">
               <CarouselContent>
-                {stateMemberships.map((membership, index) => (
+                {stateMemberships.map((memberships, index) => (
                   <CarouselItem key={index} className="basis-full">
                     <div className="flex items-center justify-center p-4 relative">
                       <X
                         className="w-6 h-6 font-bold bg-destructive absolute rounded-full p-1 top-2 right-2 z-50 cursor-pointer hover:bg-destructive/90"
                         onClick={() =>
-                          handleMemberShipDelete(membership.planName)
+                          handleMemberShipDelete(memberships.planName)
                         }
                       />
 
                       <PricingCard
-                        heading={membership.planName}
+                        heading={memberships.planName}
                         description={
-                          membership.duration === "1-Month"
+                          memberships.duration === "1-Month"
                             ? "Per month"
-                            : membership.duration === "3-Month"
+                            : memberships.duration === "3-Month"
                             ? "Quarterly"
-                            : membership.duration === "6-Month"
+                            : memberships.duration === "6-Month"
                             ? "Semi-annually"
-                            : membership.duration === "12-Month"
+                            : memberships.duration === "12-Month"
                             ? "Annually"
                             : "Per Month"
                         }
-                        price={Number(membership.price)}
+                        price={Number(memberships.price)}
                         buttonText="Get Started"
                         list={[
-                          ...membership.services,
-                          ...membership.facilities,
+                          ...memberships.services,
+                          ...memberships.facilities,
                         ]}
                         className="w-full max-w-sm h-full max-h-96 overflow-y-scroll"
                       />

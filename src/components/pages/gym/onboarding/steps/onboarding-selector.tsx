@@ -93,6 +93,7 @@ const OnboardingSelector = ({
                       }
                       onChange={(selectedTags) => {
                         const names = selectedTags.map((tag) => tag.name);
+                        console.log("in oboarding-selector onchange : ", names);
                         field.onChange(names);
                       }}
                     />

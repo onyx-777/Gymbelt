@@ -51,6 +51,13 @@ export function AddMembership({
 }: Props) {
   const { services, facilities } = useStore();
 
+  console.log(
+    "in add membership ---> services : ",
+    services,
+    "facilities : ",
+    facilities
+  );
+
   // Define the form with react-hook-form and Zod resolver
   const form = useForm<z.infer<typeof membershipSchema>>({
     resolver: zodResolver(membershipSchema),

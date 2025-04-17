@@ -58,10 +58,7 @@ export async function POST(req: Request) {
   // console.log("Webhook payload:", body);
 
   const clerkRes = JSON.parse(body);
-  console.log(
-    "first_name: clerkRes.data.first_name : ",
-    clerkRes.data.first_name
-  );
+  console.log("first_name: clerkRes.data : ", clerkRes.data);
 
   if (evt.type === "user.created") {
     await createGymOwnerInDB({

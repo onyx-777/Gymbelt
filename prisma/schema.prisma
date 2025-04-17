@@ -17,13 +17,14 @@ model Gym {
   website        String?
   slogan         String
   subdomain      String        @unique
-  description    String
+  description    String?
+  facilities     String[]
+  services       String[]
   isVerified     Boolean       @default(false)
   isActive       Boolean       @default(true)
   isTrial        Boolean       @default(true)
   trialEndsAt    DateTime?
   trialStartedAt DateTime?
-  plan           PlanType      @default(FREE)
   planStartedAt  DateTime?
   planEndsAt     DateTime?
   planStatus     String        @default("active")
@@ -35,7 +36,7 @@ model Gym {
   updatedAt      DateTime      @updatedAt
   gymOwner       GymOwner      @relation(fields: [gymOwnerId], references: [id])
   members        Member[]
-  subscription   Subscription?
+  memberships    Memberships[]
 }
 
 model GymOwner {
@@ -67,14 +68,16 @@ model Member {
   gym          Gym      @relation(fields: [gymId], references: [id])
 }
 
-model Subscription {
-  id        String   @id @default(uuid())
-  gymId     String   @unique
-  plan      PlanType
-  status    String   @default("active")
-  expiresAt DateTime
-  createdAt DateTime @default(now())
-  gym       Gym      @relation(fields: [gymId], references: [id])
+model Memberships {
+  id         String   @id @default(uuid())
+  gymId      String
+  planName   String
+  services   String[]
+  facilities String[]
+  duration   String
+  price      String
+  createdAt  DateTime @default(now())
+  gym        Gym      @relation(fields: [gymId], references: [id])
 }
 
 model Payment {
@@ -89,12 +92,6 @@ model Payment {
 enum Role {
   GYM_OWNER
   MEMBER
-}
-
-enum PlanType {
-  FREE
-  BASIC
-  PREMIUM
 }
 
 enum Provider {

@@ -20,6 +20,8 @@ interface Props {
 function SelectFacilitiesServices({ list, componentFor, field }: Props) {
   const [selected, setSelected] = useState<Option[]>([]);
 
+  console.log("list : ", list);
+
   return (
     <div className="w-full">
       <MultipleSelector
