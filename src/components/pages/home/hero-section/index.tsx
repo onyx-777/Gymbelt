@@ -16,7 +16,7 @@ export default function Hero() {
         actions={[
           {
             text: "Automate Gym",
-            href: "/register",
+            href: "/onboarding",
             variant: "default",
           },
           {

@@ -55,19 +55,19 @@ export const AnimatedTestimonials = ({
       initial={{ y: 100, opacity: 0 }}
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 1 }}
-      className="min-h-screen w-full flex flex-col justify-center items-center gap-10 mt-50 lg:mt-10"
+      className="min-h-full px-7 w-full flex flex-col justify-center items-center gap-10 mt-50 lg:mt-10"
     >
       <SectionBadge title="What our customers say" />
 
       <div
         className={cn(
-          "max-w-sm md:max-w-4xl mx-auto px-4 md:px-8 lg:px-12 py-20",
+          "max-w-sm md:max-w-4xl mx-auto px-4 rounded-2xl md:px-8 lg:px-12 py-5 md:py-12",
           className
         )}
       >
         <div className="relative grid grid-cols-1 md:grid-cols-2 gap-20">
           <div>
-            <div className="relative h-80 w-full">
+            <div className="relative h-56 md:h-96 w-full">
               <AnimatePresence>
                 {testimonials.map((testimonial, index) => (
                   <motion.div
@@ -113,7 +113,7 @@ export const AnimatedTestimonials = ({
               </AnimatePresence>
             </div>
           </div>
-          <div className="flex justify-between flex-col py-4">
+          <div className="flex justify-between flex-col">
             <motion.div
               key={active}
               initial={{
@@ -136,7 +136,7 @@ export const AnimatedTestimonials = ({
               <h3 className="text-2xl font-bold text-foreground">
                 {testimonials[active].name}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground font-semibold tracking-wide">
                 {testimonials[active].designation}
               </p>
               <motion.p className="text-lg text-muted-foreground mt-8">
@@ -158,14 +158,14 @@ export const AnimatedTestimonials = ({
                       ease: "easeInOut",
                       delay: 0.02 * index,
                     }}
-                    className="inline-block"
+                    className="inline-block text-sm md:text-lg"
                   >
                     {word}&nbsp;
                   </motion.span>
                 ))}
               </motion.p>
             </motion.div>
-            <div className="flex gap-4 pt-12 md:pt-0">
+            <div className="flex gap-4 md:pt-0 mt-5">
               <button
                 onClick={handlePrev}
                 className="h-7 w-7 rounded-full bg-secondary flex items-center justify-center group/button"

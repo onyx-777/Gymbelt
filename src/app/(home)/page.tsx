@@ -10,7 +10,7 @@ import { TestimonialsSection } from "@/components/pages/home/testimonials";
 
 export default function Home() {
   return (
-    <>
+    <div className="flex flex-col justify-center items-center lg:gap-36 lg:-mt-36">
       <Navbar />
 
       <Hero />
@@ -21,6 +21,6 @@ export default function Home() {
       <BookADemo />
       {/* <TrustedTechSection /> */}
       <Footer />
-    </>
+    </div>
   );
 }

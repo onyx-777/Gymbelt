@@ -68,11 +68,11 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
       <motion.div
         layout
         ref={containerRef}
-        className="selected no-scrollbar flex h-12 w-full items-center overflow-x-auto scroll-smooth rounded-md border p-2"
+        className="selected mb-2 flex h-fit w-full items-center overflow-x-auto scroll-smooth rounded-md"
       >
         <motion.div
           layout
-          className="flex items-center justify-start w-full gap-2 z-50"
+          className="flex items-center p-2 h-full justify-start w-full z-50"
         >
           <AnimatePresence mode="popLayout">
             {selected.length > 0 ? (
@@ -80,14 +80,17 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
                 <Tag
                   name={`selected-${tag.name}`}
                   key={`selected-${tag.name}`}
-                  className="bg-theme rounded-full"
+                  className="w-fit border-none bg-transparent"
                 >
-                  <div className="flex items-center gap-2 bg-theme text-white">
-                    <motion.span layout className="text-nowrap">
+                  <div className="flex justify-between w-full items-center gap-5 p-2 px-5 bg-primary rounded-full text-white">
+                    <motion.span
+                      layout
+                      className="text-nowrap text-[16px] rounded-full font-medium"
+                    >
                       {tag.name}
                     </motion.span>
                     <p
-                      className="hover:bg-white/20 rounded-full p-1"
+                      className="bg-white/30 hover:bg-white/50 rounded-full p-1"
                       onClick={(e) => {
                         e.stopPropagation();
                         onDeselect(tag);
@@ -114,7 +117,7 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
       </motion.div>
 
       {tags.length > selected.length && (
-        <div className="flex w-full flex-wrap gap-2 rounded-md border border-solid p-2 overflow-y-auto max-h-[200px]">
+        <div className="flex w-full h-44 flex-wrap gap-2 rounded-md p-3 overflow-y-auto max-h-[200px]">
           <AnimatePresence>
             {tags
               .filter((tag) => !selected.some((s) => s.name === tag.name))
@@ -123,8 +126,12 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
                   name={`available-${tag.name}`}
                   onClick={() => onSelect(tag)}
                   key={`available-${tag.name}`}
+                  className="bg-primary/10 h-fit font-medium w-fit border-none rounded-full"
                 >
-                  <motion.span layout className="text-nowrap">
+                  <motion.span
+                    layout
+                    className="text-nowrap text-theme px-4 h-fit font-medium rounded-full"
+                  >
                     {tag.name}
                   </motion.span>
                 </Tag>
@@ -152,7 +159,7 @@ export const Tag = ({ children, name, onClick, className }: TagProps) => {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
       transition={{ duration: 0.15 }}
-      className={`cursor-pointer text-primary bg-background rounded-md border px-4 py-2 text-sm ${
+      className={`cursor-pointer text-primary bg-background rounded-md border px-1 py-2 text-sm ${
         className || ""
       }`}
     >

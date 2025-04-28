@@ -70,7 +70,7 @@ const OnboardingSelector = ({
         <div className="flex flex-col gap-0 -mb-10">
           <div className="text-center mb-8">
             {Icon && (
-              <div className="inline-block p-3 md:p-4 bg-theme/20 rounded-full mb-4">
+              <div className="inline-block p-3 md:p-4 bg-primary/20 rounded-full mb-4">
                 <Icon className="w-8 h-8 md:w-10 md:h-10 text-theme" />
               </div>
             )}

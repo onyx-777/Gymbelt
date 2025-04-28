@@ -1,16 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button } from "@/components/ui/button";
-import {
-  DialogHeader,
-  DialogFooter,
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 import {
@@ -39,6 +29,8 @@ import { z } from "zod";
 import { toast } from "sonner";
 import { useRef } from "react";
 import { OnboardingMembershipType } from "@/types/onboarding";
+import { useModal } from "../../../admin/features/scheduler/providers/modal-context";
+import CustomModal from "../../../admin/features/scheduler/components/ui/custom-modal";
 
 interface Props {
   stateMemberships: OnboardingMembershipType[];
@@ -50,6 +42,7 @@ export function AddMembership({
   stateMemberships,
 }: Props) {
   const { services, facilities } = useStore();
+  const { setOpen, setClose } = useModal();
 
   console.log(
     "in add membership ---> services : ",
@@ -127,21 +120,16 @@ export function AddMembership({
     // console.log("membership Info Stored:", getCompleteData().membership);
   };
 
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <div className="flex flex-col gap-3 w-full h-full text-muted-foreground tracking-wider aspect-square items-center justify-center">
-          <Plus />
-          Add Membership
-        </div>
-      </DialogTrigger>
-      <DialogContent className="flex flex-col gap-0 p-0 sm:max-h-[min(640px,80vh)] sm:max-w-lg [&>button:last-child]:hidden">
-        <ScrollArea className="h-[80vh] scroll-smooth">
-          <DialogHeader className="contents space-y-0 text-left">
-            <DialogTitle className="p-4 w-full text-center bg-muted rounded-t-2xl">
+  const handleAddMembership = () => {
+    console.log("hello");
+    setOpen(
+      <CustomModal customizedModal contentClass="dark:bg-neutral-950 bg-white">
+        <ScrollArea className="h-full max-h-[85vh] w-screen md:w-fit rounded-xl scroll-smooth">
+          <div className="space-y-0 text-left">
+            <div className="p-4 w-full font-semibold text-xl text-center rounded-t-full">
               Add Membership Plan
-            </DialogTitle>
-            <DialogDescription asChild>
+            </div>
+            <div>
               <div className="p-6">
                 <div className="space-y-4 [&_strong]:font-semibold [&_strong]:text-foreground">
                   {/* Replace the specific div with form field */}
@@ -164,7 +152,7 @@ export function AddMembership({
                                   render={({ field }) => (
                                     <FormItem className="flex flex-col items-center justify-center w-full max-w-md">
                                       <FormLabel className="w-full">
-                                        <h1 className="w-full rounded-md text-primary px-3 text-left text-sm font-medium">
+                                        <h1 className="w-full rounded-md text-secondary-foreground px-3 text-left text-sm font-medium">
                                           Plan Name
                                         </h1>
                                       </FormLabel>
@@ -172,7 +160,7 @@ export function AddMembership({
                                         <Input
                                           type={"text"}
                                           placeholder={"Name your plan"}
-                                          className="mt-1 py-2 border rounded-lg w-full"
+                                          className="mt-1 py-2 rounded-lg w-full"
                                           {...field}
                                         />
                                       </FormControl>
@@ -186,7 +174,7 @@ export function AddMembership({
                                   render={({ field }) => (
                                     <FormItem className="flex flex-col items-center justify-center w-full max-w-sm">
                                       <FormLabel className="w-full">
-                                        <h1 className=" w-full rounded-md text-primary px-3 text-left text-sm font-medium">
+                                        <h1 className=" w-full rounded-md text-secondary-foreground px-3 text-left text-sm font-medium">
                                           Select services this plan would have
                                         </h1>
                                       </FormLabel>
@@ -210,7 +198,7 @@ export function AddMembership({
                                   render={({ field }) => (
                                     <FormItem className="flex flex-col items-center justify-center w-full max-w-sm">
                                       <FormLabel className="w-full">
-                                        <h1 className=" w-full rounded-md text-primary px-3 text-left text-sm font-medium">
+                                        <h1 className=" w-full rounded-md text-secondary-foreground px-3 text-left text-sm font-medium">
                                           Select Facilities this plan would have
                                         </h1>
                                       </FormLabel>
@@ -228,103 +216,110 @@ export function AddMembership({
                                     </FormItem>
                                   )}
                                 />
-                                <FormField
-                                  control={form.control}
-                                  name={"duration"}
-                                  render={({ field }) => (
-                                    <FormItem className="flex flex-col items-center justify-center w-full max-w-sm">
-                                      <FormLabel className="w-full">
-                                        <h1 className=" w-full rounded-md text-primary px-3 text-left text-sm font-medium">
-                                          Select plan duration
-                                        </h1>
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Select
-                                          onValueChange={(value) =>
-                                            field.onChange(value)
-                                          }
-                                          required
-                                        >
-                                          <SelectTrigger>
-                                            <SelectValue placeholder="Select Plan Duration..." />
-                                          </SelectTrigger>
-                                          <SelectContent>
-                                            <SelectItem value="1-Month">
-                                              1-Month
-                                            </SelectItem>
-                                            <SelectItem value="3-Month">
-                                              3-Month
-                                            </SelectItem>
-                                            <SelectItem value="6-Month">
-                                              6-Month
-                                            </SelectItem>
-                                            <SelectItem value="12-Month">
-                                              12-Month
-                                            </SelectItem>
-                                          </SelectContent>
-                                        </Select>
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
-                                <FormField
-                                  control={form.control}
-                                  name={"price"}
-                                  render={({ field }) => (
-                                    <FormItem className="flex flex-col items-center justify-center w-full max-w-md">
-                                      <FormLabel className="w-full">
-                                        <h1 className="w-full rounded-md text-primary px-3 text-left text-sm font-medium">
-                                          Plan Price
-                                        </h1>
-                                      </FormLabel>
-                                      <FormControl>
-                                        <Input
-                                          type={"text"}
-                                          placeholder={"Membership cost"}
-                                          className="mt-1 py-2 border rounded-lg w-full"
-                                          {...field}
-                                        />
-                                      </FormControl>
-                                      <FormMessage />
-                                    </FormItem>
-                                  )}
-                                />
+                                <div className="flex md:flex-row justify-center gap-3 items-center w-full">
+                                  <FormField
+                                    control={form.control}
+                                    name={"duration"}
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-col items-center justify-center w-full max-w-sm">
+                                        <FormLabel className="w-full">
+                                          <h1 className=" w-full rounded-md text-secondary-foreground px-3 text-left text-sm font-medium">
+                                            Select plan duration
+                                          </h1>
+                                        </FormLabel>
+                                        <FormControl>
+                                          <Select
+                                            onValueChange={(value) =>
+                                              field.onChange(value)
+                                            }
+                                            required
+                                          >
+                                            <SelectTrigger>
+                                              <SelectValue placeholder="Select Plan Duration..." />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                              <SelectItem value="1-Month">
+                                                1-Month
+                                              </SelectItem>
+                                              <SelectItem value="3-Month">
+                                                3-Month
+                                              </SelectItem>
+                                              <SelectItem value="6-Month">
+                                                6-Month
+                                              </SelectItem>
+                                              <SelectItem value="12-Month">
+                                                12-Month
+                                              </SelectItem>
+                                            </SelectContent>
+                                          </Select>
+                                        </FormControl>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                  <FormField
+                                    control={form.control}
+                                    name={"price"}
+                                    render={({ field }) => (
+                                      <FormItem className="flex flex-col items-center justify-center w-full max-w-md">
+                                        <FormLabel className="w-full">
+                                          <h1 className="w-full rounded-md text-secondary-foreground px-3 text-left text-sm font-medium">
+                                            Plan Price
+                                          </h1>
+                                        </FormLabel>
+                                        <FormControl>
+                                          <Input
+                                            type={"text"}
+                                            placeholder={"Membership cost"}
+                                            className="mt-1 py-2 rounded-lg w-full"
+                                            {...field}
+                                          />
+                                        </FormControl>
+                                        <FormMessage />
+                                      </FormItem>
+                                    )}
+                                  />
+                                </div>
                               </div>
                             </div>
                           </div>
                         </motion.div>
-                        <DialogFooter className="px-6 mt-4 pb-6 w-full space-y-3">
-                          <DialogClose asChild>
-                            <Button
-                              type="button"
-                              variant="outline"
-                              className="w-full"
-                            >
-                              Cancel
-                            </Button>
-                          </DialogClose>
-                          <DialogClose
-                            ref={dialogCloseRef}
-                            className="hidden"
-                          />
+                        <footer className="mt-9 w-full flex flex-col justify-center items-center space-y-3">
                           <Button
                             onClick={form.handleSubmit(onSubmit)}
                             type="submit"
-                            className="w-full mb-2"
+                            className="w-full mb-2 max-w-md dark:bg-white dark:text-black bg-black text-white"
                           >
                             Okay
                           </Button>
-                        </DialogFooter>
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            className="w-full"
+                            onClick={() => setClose()}
+                          >
+                            Cancel
+                          </Button>
+                        </footer>
                       </form>
                     </Form>
                   </div>
                 </div>
               </div>
-            </DialogDescription>
-          </DialogHeader>
+            </div>
+          </div>
         </ScrollArea>
-      </DialogContent>
-    </Dialog>
+      </CustomModal>
+    );
+  };
+
+  return (
+    <div
+      onClick={() => handleAddMembership()}
+      className="flex flex-col dark:bg-neutral-900 bg-neutral-200 gap-3 w-full h-full text-muted-foreground tracking-wider aspect-square items-center justify-center"
+    >
+      <Plus />
+      Add Membership
+    </div>
   );
 }

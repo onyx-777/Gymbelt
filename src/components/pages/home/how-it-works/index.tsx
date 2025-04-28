@@ -1,7 +1,7 @@
 "use client";
 import { HowItWorksSteps } from "@/components/blocks/how-it-works-section";
 import { SectionBadge } from "@/components/ui/section-badge";
-import {motion} from 'motion/react'
+import { motion } from "motion/react";
 
 const WorkSteps = [
   {
@@ -36,7 +36,7 @@ export function HowItWorksSection() {
       //   animate={{ y: 0, opacity : 1 }} // Animate on scroll into view
       whileInView={{ y: 0, opacity: 1 }}
       transition={{ duration: 1 }} // Transition properties
-      className="min-h-screen w-full flex flex-col justify-center items-center gap-10 mt-50 lg:mt-10"
+      className="min-h-full w-full flex flex-col justify-center items-center gap-10 mt-50 lg:mt-10"
     >
       <SectionBadge title="How it Works" />
       <HowItWorksSteps

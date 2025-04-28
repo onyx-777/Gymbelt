@@ -25,7 +25,7 @@ const Unauthorized = ({
         </p>
         <div className="flex flex-col mt-10 justify-center items-center w-60 gap-3">
           <Link href="/" className="w-full cursor-pointer">
-            <Button className="bg-theme text-white rounded-full hover:text-black w-full">
+            <Button className="bg-primary text-white rounded-full hover:text-black w-full">
               Go Home
             </Button>
           </Link>

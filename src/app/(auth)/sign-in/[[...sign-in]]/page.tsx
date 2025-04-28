@@ -78,7 +78,7 @@ export default function SignInPage() {
                 No account?{" "}
                 <Clerk.Link
                   navigate="sign-up"
-                  className="font-medium text-black dark:text-white decoration-white/20 underline-offset-4 outline-none hover:underline focus-visible:underline"
+                  className="font-medium text-primary decoration-white/20 underline-offset-4 outline-none hover:underline focus-visible:underline"
                 >
                   Create an account
                 </Clerk.Link>

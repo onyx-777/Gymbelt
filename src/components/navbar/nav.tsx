@@ -1,16 +1,14 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowRightIcon, MenuIcon, XIcon } from "lucide-react";
 import Link from "next/link";
 import Wrapper from "../global/wrapper";
 import { Button } from "../ui/button";
 import Menu from "./menu";
-import MobileMenu from "./mobile-menu";
-import { ToggleTheme } from "../global/theme-toggle";
 import { ThemeToggle } from "../ui/theme-toggle";
 import { motion } from "motion/react";
 import Image from "next/image";
+import { InteractiveHoverButton } from "../magicui/interactive-hover-button";
 
 type Props = {
   user: string | undefined;
@@ -41,7 +39,7 @@ const Nav = ({ user }: Props) => {
   if (!mounted) return null; // Prevent hydration issues
 
   return (
-    <div className="relative w-full h-full">
+    <div className="relative z-[9999] w-full h-full">
       {" "}
       <div className="z-[99] fixed pointer-events-none inset-x-0 h-[88px] backdrop-blur-sm [mask:linear-gradient(to_bottom,#000_20%,transparent_calc(100%-20%))]"></div>
       <motion.header
@@ -70,41 +68,29 @@ const Nav = ({ user }: Props) => {
             </div>
             <div className="items-center flex gap-2 lg:gap-4">
               {user ? (
-                <Button size="sm" asChild className="hidden sm:flex">
-                  <Link href="/onboarding">Dashboard</Link>
-                </Button>
+                <InteractiveHoverButton>
+                  <Link href="/sign-in" className="text-sm">
+                    Dashboard
+                  </Link>
+                </InteractiveHoverButton>
               ) : (
                 <>
                   <Button
                     size="sm"
                     asChild
-                    className="hover:translate-y-0 hover:scale-100"
+                    className="hover:translate-y-0 hover:scale-100 dark:bg-white dark:text-black bg-black text-white"
                   >
                     <Link href="/sign-in">Login</Link>
                   </Button>
-                  <Button size="sm" asChild className="hidden sm:flex">
-                    <Link href="/auth/signup">
+                  <InteractiveHoverButton className="hidden md:block">
+                    <Link href="/sign-in" className="text-sm">
                       Get Started
-                      <ArrowRightIcon className="w-4 h-4 ml-2 hidden lg:block" />
                     </Link>
-                  </Button>
+                  </InteractiveHoverButton>
                 </>
               )}
-              <motion.div
-                className="lg:hidden"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ToggleTheme />
-              </motion.div>
-              <motion.div
-                className="hidden lg:block"
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <ThemeToggle />
-              </motion.div>
-              <Button
+              <ThemeToggle />
+              {/* <Button
                 size="icon"
                 variant="ghost"
                 onClick={() => {
@@ -112,16 +98,16 @@ const Nav = ({ user }: Props) => {
                   console.log("x clicked");
                 }}
                 className="lg:hidden p-2 w-8 h-8"
-              >
-                {isOpen ? (
+              > */}
+              {/* {isOpen ? (
                   <XIcon className="w-4 h-4 duration-300" />
                 ) : (
                   <MenuIcon className="w-3.5 h-3.5 duration-300" />
-                )}
-              </Button>
+                )} */}
+              {/* </Button> */}
             </div>
           </div>
-          <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} />
+          {/* <MobileMenu isOpen={isOpen} setIsOpen={setIsOpen} /> */}
         </Wrapper>
       </motion.header>
     </div>

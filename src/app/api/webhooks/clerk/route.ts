@@ -55,18 +55,18 @@ export async function POST(req: Request) {
   const { id } = evt.data;
   const eventType = evt.type;
   console.log(`Received webhook with ID ${id} and event type of ${eventType}`);
-  // console.log("Webhook payload:", body);
+  console.log("Webhook payload:", body);
 
   const clerkRes = JSON.parse(body);
-  console.log("first_name: clerkRes.data : ", clerkRes.data);
+  console.log("firstName: clerkRes.data : ", clerkRes.data);
 
   if (evt.type === "user.created") {
     await createGymOwnerInDB({
       clerkId: clerkRes.data.id,
       avatar: clerkRes.data.profile_image_url,
       email: clerkRes.data.email_addresses[0].email_address,
-      first_name: clerkRes.data.first_name,
-      last_name: clerkRes.data.last_name,
+      firstName: clerkRes.data.first_name,
+      lastName: clerkRes.data.last_name,
       oauth: clerkRes.data.email_addresses[0].linked_to[0].type as Provider,
     });
 

@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    useCache: true,
+    cacheLife: {
+      "1 hours": {
+        stale: 3600, // Time (in seconds) after which data is considered stale
+        revalidate: 3600, // Time (in seconds) after which data should be revalidated
+        expire: 7200, // Time (in seconds) after which the cache expires
+      },
+    },
+  },
   // Allow cross-origin requests from specific domains during development
   allowedDevOrigins: [
     "http://localhost:3000", // Replace with your specific domain for local development
@@ -31,6 +41,14 @@ const nextConfig: NextConfig = {
       {
         protocol: "https", // Ensure the correct protocol (https)
         hostname: "ddvnxxtuwp.ufs.sh", // For Unsplash images
+      },
+      {
+        protocol: "https", // Ensure the correct protocol (https)
+        hostname: "originui.com", // For Unsplash images
+      },
+      {
+        protocol: "https", // Ensure the correct protocol (https)
+        hostname: "assets.aceternity.com", // For Unsplash images
       },
     ],
   },

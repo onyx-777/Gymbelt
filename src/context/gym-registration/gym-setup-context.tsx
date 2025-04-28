@@ -76,7 +76,7 @@ export interface RegistrationState {
 }
 
 const initialState = {
-  step: 10,
+  step: 0,
   gymNameAddress: {
     gymName: "",
     gymAddress: "",

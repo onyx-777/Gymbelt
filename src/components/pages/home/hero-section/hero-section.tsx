@@ -6,9 +6,10 @@ import { Mockup, MockupFrame } from "@/components/ui/mockup";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { motion } from "motion/react";
 import { SectionBadge } from "@/components/ui/section-badge";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import clsx from "clsx";
 
 interface HeroAction {
   text: string;
@@ -60,7 +61,7 @@ export function HeroSection({
   return (
     <section
       className={cn(
-        "bg-background text-foreground relative py-12 sm:py-24 md:py-32 px-4"
+        "w-screen text-foreground relative py-12 sm:py-24 md:py-32 px-4"
       )}
     >
       {/* Grid Background */}
@@ -72,10 +73,15 @@ export function HeroSection({
           ease: "easeInOut",
         }}
         className={cn(
-          "absolute inset-0 z-0 h-[70%]",
-          "[background-size:60px_60px]",
+          "absolute inset-0 w-full z-0 h-[70%]",
+          "[background-size:40px_40px]",
           "[background-image:linear-gradient(to_right,#9e9e9e_0px,transparent_1px),linear-gradient(to_bottom,#d8d7d7_0.5px,transparent_1px)]",
-          "dark:[background-image:linear-gradient(to_right,#262626_1px,transparent_1px),linear-gradient(to_bottom,#262626_1px,transparent_1px)]"
+          "dark:[background-image:linear-gradient(to_right,#262626_1px,transparent_2px),linear-gradient(to_bottom,#262626_1px,transparent_2px)]",
+          "[mask-image:radial-gradient(circle,rgba(0,0,0,1)_10%,rgba(0,0,0,0)_80%)]",
+          "[mask-repeat:no-repeat]",
+          "[mask-position:center]",
+          "[mask-size:cover]",
+          "[--tw-mask-composite:intersect]" // This line is harmless and keeps it future-proof
         )}
       />
 
@@ -89,7 +95,7 @@ export function HeroSection({
             //   className="bg-background/30 animate-appear gap-2 z-50"
             // >
             //   <span className="text-muted-foreground">{badge.text}</span>
-            //   <a href={badge.action.href} className="flex items-center gap-1">
+            //   <Link href={badge.action.href} className="flex items-center gap-1">
             //     {badge.action.text}
             //     <ArrowRightIcon className="h-3 w-3" />
             //   </a>
@@ -113,7 +119,11 @@ export function HeroSection({
               <Button key={index} size="lg" asChild>
                 <Link
                   href={action.href}
-                  className="flex items-center gap-2 font-medium text-lg"
+                  className={clsx(
+                    `flex items-center gap-2 font-medium text-lg`,
+                    action.variant === "default" &&
+                      "dark:bg-white dark:text-black bg-black text-white"
+                  )}
                 >
                   {action.icon}
                   {action.text}
@@ -123,11 +133,11 @@ export function HeroSection({
           </div>
 
           {/* Image with Glowing Circle Effect */}
-          <div className="relative pt-12">
+          <div className="relative flex justify-center items-center pt-12">
             {/* Glowing circle effect behind the image */}
             <div className="absolute inset-0 flex justify-center items-center">
               {/* Glowing circle */}
-              <div className="absolute md:-top-20 min-w-full min-h-full md:min-w-screen md:min-h-screen rounded-full bg-[#7C3AED] opacity-70 blur-3xl animate-pulse"></div>
+              <div className="h-full w-full rounded-full bg-primary opacity-70 blur-3xl animate-pulse"></div>
             </div>
 
             <MockupFrame

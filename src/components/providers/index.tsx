@@ -9,12 +9,7 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
       signInForceRedirectUrl={"/onboarding"}
       signUpUrl="/sign-in"
     >
-      <ThemeProvider
-        attribute="class"
-        defaultTheme="system"
-        enableSystem
-        disableTransitionOnChange
-      >
+      <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
         {children}
       </ThemeProvider>
     </ClerkProvider>

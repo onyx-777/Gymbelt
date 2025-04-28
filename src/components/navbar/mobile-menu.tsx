@@ -34,7 +34,7 @@ interface Props {
 
 const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
   const ref = useClickOutside(() => {
-    if (!open) {
+    if (!isOpen) {
       setIsOpen(false);
     }
   });
@@ -48,11 +48,11 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
     <div
       ref={ref}
       className={cn(
-        "absolute top-12 inset-x-0 size-full p-4 z-20 bg-inherit flex flex-1",
+        "absolute top-12 inset-x-0 p-4 z-20 flex flex-1",
         isOpen ? "flex" : "hidden"
       )}
     >
-      <div className="z-[0] h-[100vh] rounded-b-2xl fixed pointer-events-none inset-x-0 dark:bg-black bg-white backdrop-blur-sm"></div>
+      <div className="z-0 h-[100vh] rounded-b-2xl fixed inset-x-0 dark:bg-black bg-white backdrop-blur-sm bg-opacity-50"></div>
       <motion.div
         initial="closed"
         animate={isOpen ? "open" : "closed"}
@@ -62,9 +62,9 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
           bounce: 0.15,
           duration: 0.5,
         }}
-        className="size-full flex flex-col justify-start"
+        className="w-full flex flex-col justify-start z-50"
       >
-        <ul className="flex flex-col z-50 items-start flex-1 w-full space-y-3">
+        <ul className="flex flex-col items-start w-full space-y-3">
           <ScrollArea className="h-screen w-full">
             <li
               onClick={() => setIsOpen(false)}
@@ -78,6 +78,8 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                 How it works
               </Link>
             </li>
+
+            {/* Accordion Component for Features */}
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1" className="border-transparent">
                 <AccordionTrigger className="px-4 py-2 text-lg hover:text-muted-foreground font-normal">
@@ -120,6 +122,8 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
+
+            {/* More Links */}
             <li
               onClick={() => setIsOpen(false)}
               className="w-full px-4 py-2 text-lg hover:text-muted-foreground font-normal transition transform rounded-md cursor-pointer text-foreground text-start active:scale-95 hover:bg-muted/20 active:opacity-80"
@@ -138,8 +142,10 @@ const MobileMenu = ({ isOpen, setIsOpen }: Props) => {
                 Integrations
               </Link>
             </li>
+
+            {/* Accordion Component for Resources */}
             <Accordion type="single" collapsible className="w-full">
-              <AccordionItem value="item-1" className="border-transparent">
+              <AccordionItem value="item-2" className="border-transparent">
                 <AccordionTrigger className="px-4 py-2 text-lg hover:text-muted-foreground font-normal">
                   <span className="flex items-center">
                     <Layers3 className="w-4 h-4 mr-2" />

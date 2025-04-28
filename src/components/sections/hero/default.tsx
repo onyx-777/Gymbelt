@@ -7,6 +7,7 @@ import Glow from "../../ui/glow";
 import Github from "../../logos/github";
 import { ReactNode } from "react";
 import Screenshot from "../../ui/screenshot";
+import Link from "next/link";
 
 interface HeroButtonProps {
   href: string;
@@ -41,7 +42,7 @@ export default function Hero({
       <span className="text-muted-foreground">
         New version of Launch UI is out!
       </span>
-      <a href="https://www.launchuicomponents.com/" className="flex items-center gap-1">
+      <Link href="https://www.launchuicomponents.com/" className="flex items-center gap-1">
         Get started
         <ArrowRightIcon className="size-3" />
       </a>
@@ -81,7 +82,7 @@ export default function Hero({
                   size="lg"
                   asChild
                 >
-                  <a href={button.href}>
+                  <Link href={button.href}>
                     {button.icon}
                     {button.text}
                     {button.iconRight}

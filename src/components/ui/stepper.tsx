@@ -205,7 +205,7 @@ const StepperIndicator = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "relative flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground data-[state=active]:bg-theme data-[state=active]:text-white data-[state=completed]:bg-theme  data-[state=completed]:text-primary",
+        "relative flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground data-[state=active]:bg-primary data-[state=active]:text-white data-[state=completed]:bg-primary  data-[state=completed]:text-primary",
         className
       )}
       data-state={state}
@@ -271,7 +271,7 @@ const StepperSeparator = React.forwardRef<
     <div
       ref={ref}
       className={cn(
-        "m-0.5 bg-muted group-data-[orientation=horizontal]/stepper:h-0.5 group-data-[orientation=vertical]/stepper:h-12 group-data-[orientation=horizontal]/stepper:w-full group-data-[orientation=vertical]/stepper:w-0.5 group-data-[orientation=horizontal]/stepper:flex-1 group-data-[state=completed]/step:bg-theme",
+        "m-0.5 bg-muted group-data-[orientation=horizontal]/stepper:h-0.5 group-data-[orientation=vertical]/stepper:h-12 group-data-[orientation=horizontal]/stepper:w-full group-data-[orientation=vertical]/stepper:w-0.5 group-data-[orientation=horizontal]/stepper:flex-1 group-data-[state=completed]/step:bg-primary",
         className
       )}
       {...props}

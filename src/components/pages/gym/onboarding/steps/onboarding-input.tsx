@@ -58,11 +58,11 @@ const OnboardingInput = ({
             <div className="flex flex-col w-full justify-center items-center gap-10 md:gap-10 lg:gap-14">
               <h1 className="flex flex-col gap-5 justify-center items-center w-full">
                 {Icon && (
-                  <span className="text-theme rounded-full p-5 bg-theme/20">
-                    <Icon className="w-[36px] h-[36px] md:w-[40px] md:h-[40px]" />
+                  <span className="text-theme rounded-full p-5 bg-primary/20">
+                    <Icon className="text-primary w-[36px] h-[36px] md:w-[40px] md:h-[40px]" />
                   </span>
                 )}
-                <span className="text-3xl lg:text-4xl w-full font-semibold">
+                <span className="text-4xl lg:text-4xl w-full font-semibold">
                   {componentHeadline}
                 </span>
               </h1>
@@ -74,7 +74,7 @@ const OnboardingInput = ({
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-center justify-center w-full max-w-md">
                       <FormLabel className="w-full">
-                        <h1 className="w-full rounded-md text-primary px-3 text-left text-base font-medium">
+                        <h1 className="w-full rounded-md text-white px-3 text-left text-base font-medium">
                           {FirstLabel}
                         </h1>
                       </FormLabel>
@@ -100,7 +100,7 @@ const OnboardingInput = ({
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-center justify-center w-full max-w-sm">
                       <FormLabel className="w-full">
-                        <h1 className=" w-full rounded-md text-primary px-3 text-left text-base font-medium">
+                        <h1 className=" w-full rounded-md text-white px-3 text-left text-base font-medium">
                           {SecondLabel}
                         </h1>
                       </FormLabel>

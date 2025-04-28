@@ -5,9 +5,8 @@ import { motion } from "framer-motion";
 import {
   Carousel,
   CarouselContent,
-  // CarouselIndicator,
   CarouselItem,
-  // CarouselNavigation,
+  CarouselNavigation,
 } from "@/components/ui/carousel";
 import { AddMembership } from "./add-membership";
 import { PricingCard } from "@/components/ui/pricing-card";
@@ -19,6 +18,7 @@ import {
 } from "@/types/onboarding";
 import { UseFormReturn } from "react-hook-form";
 import useStore from "@/context/gym-registration/gym-setup-context";
+import ModalProvider from "../../../admin/features/scheduler/providers/modal-context";
 // import { useRouter } from "next/navigation";
 
 interface Props {
@@ -78,79 +78,81 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
   return (
     // <Form {...form}>
     //   <form onSubmit={form.handleSubmit(onSubmit)}>
-    <motion.div
-      initial={{ opacity: 0, y: -50 }} // Animation when entering
-      animate={{ opacity: 1, y: 0 }} // Animation when mounted
-      exit={{ opacity: 0 }} // Animation when unmounting
-      transition={{ duration: 0.5, ease: "easeInOut" }}
-      className="flex flex-col items-center justify-center h-full w-full -mb-10"
-    >
-      <div className="flex flex-col items-center justify-center h-full w-full max-w-sm">
-        <div className="flex flex-col w-full justify-center items-center gap-3">
-          <h1 className="flex flex-col gap-5 justify-center items-center w-full">
-            {Icon && (
-              <span className="text-theme rounded-full p-5 bg-theme/20">
-                <Icon className="w-[36px] h-[36px] md:w-[40px] md:h-[40px]" />
+    <ModalProvider>
+      <motion.div
+        initial={{ opacity: 0, y: -50 }} // Animation when entering
+        animate={{ opacity: 1, y: 0 }} // Animation when mounted
+        exit={{ opacity: 0 }} // Animation when unmounting
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        className="flex flex-col items-center justify-center h-full w-full -mb-10"
+      >
+        <div className="flex flex-col items-center justify-center h-full w-full max-w-sm">
+          <div className="flex flex-col w-full justify-center items-center gap-3">
+            <h1 className="flex flex-col gap-5 justify-center items-center w-full">
+              {Icon && (
+                <span className="text-theme rounded-full p-5 bg-theme/20">
+                  <Icon className="w-[36px] h-[36px] md:w-[40px] md:h-[40px]" />
+                </span>
+              )}
+              <span className="text-3xl lg:text-4xl w-full font-semibold">
+                {componentHeadline}
               </span>
-            )}
-            <span className="text-3xl lg:text-4xl w-full font-semibold">
-              {componentHeadline}
-            </span>
-          </h1>
+            </h1>
 
-          <div className="flex flex-col justify-center items-center gap-7 w-full">
-            <Carousel className="w-full max-w-xl">
-              <CarouselContent>
-                {stateMemberships.map((memberships, index) => (
-                  <CarouselItem key={index} className="basis-full">
-                    <div className="flex items-center justify-center p-4 relative">
-                      <X
-                        className="w-6 h-6 font-bold bg-destructive absolute rounded-full p-1 top-2 right-2 z-50 cursor-pointer hover:bg-destructive/90"
-                        onClick={() =>
-                          handleMemberShipDelete(memberships.planName)
-                        }
-                      />
+            <div className="flex flex-col justify-center items-center gap-7 w-full">
+              <Carousel className="w-full max-w-xl">
+                <CarouselContent>
+                  {stateMemberships.map((memberships, index) => (
+                    <CarouselItem key={index} className="basis-full">
+                      <div className="flex items-center justify-center p-4 relative">
+                        <X
+                          className="w-6 h-6 font-bold bg-red-600 text-white absolute rounded-full p-1 top-2 right-2 z-50 cursor-pointer hover:bg-destructive/90"
+                          onClick={() =>
+                            handleMemberShipDelete(memberships.planName)
+                          }
+                        />
 
-                      <PricingCard
-                        heading={memberships.planName}
-                        description={
-                          memberships.duration === "1-Month"
-                            ? "Per month"
-                            : memberships.duration === "3-Month"
-                            ? "Quarterly"
-                            : memberships.duration === "6-Month"
-                            ? "Semi-annually"
-                            : memberships.duration === "12-Month"
-                            ? "Annually"
-                            : "Per Month"
-                        }
-                        price={Number(memberships.price)}
-                        buttonText="Get Started"
-                        list={[
-                          ...memberships.services,
-                          ...memberships.facilities,
-                        ]}
-                        className="w-full max-w-sm h-full max-h-96 overflow-y-scroll"
+                        <PricingCard
+                          heading={memberships.planName}
+                          description={
+                            memberships.duration === "1-Month"
+                              ? "Per month"
+                              : memberships.duration === "3-Month"
+                              ? "Quarterly"
+                              : memberships.duration === "6-Month"
+                              ? "Semi-annually"
+                              : memberships.duration === "12-Month"
+                              ? "Annually"
+                              : "Per Month"
+                          }
+                          price={Number(memberships.price)}
+                          buttonText="Get Started"
+                          list={[
+                            ...memberships.services,
+                            ...memberships.facilities,
+                          ]}
+                          className="w-full max-w-sm h-full max-h-96 overflow-y-scroll"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                  <CarouselItem className="basis-full">
+                    <div className="flex w-full items-center justify-center p-4">
+                      <AddMembership
+                        stateMemberships={stateMemberships}
+                        setStateMemberships={setStateMemberships}
                       />
                     </div>
                   </CarouselItem>
-                ))}
-                <CarouselItem className="basis-full">
-                  <div className="flex w-full items-center justify-center p-4">
-                    <AddMembership
-                      stateMemberships={stateMemberships}
-                      setStateMemberships={setStateMemberships}
-                    />
-                  </div>
-                </CarouselItem>
-              </CarouselContent>
-              {/* <CarouselNavigation className="hidden md:flex" alwaysShow /> */}
-              {/* <CarouselIndicator /> */}
-            </Carousel>
+                </CarouselContent>
+                <CarouselNavigation alwaysShow />
+                {/* <CarouselIndicator /> */}
+              </Carousel>
+            </div>
           </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </ModalProvider>
     //   </form>
     // </Form>
   );

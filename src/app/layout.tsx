@@ -1,12 +1,17 @@
 import "./globals.css";
 import { cn, generateMetadata } from "@/functions";
-import { inter, satoshi } from "@/constants";
-import { Toaster } from "@/components/ui/sonner";
 import Providers from "@/components/providers";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Nunito_Sans } from "next/font/google";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata = generateMetadata();
 
+const montserrat = Nunito_Sans({
+  subsets: ["latin", "latin-ext"],
+  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
+  variable: "--font-montserrat",
+});
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -16,15 +21,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
-          "min-h-screen dark:bg-black bg-background select-none text-foreground antialiased font-default overflow-x-hidden !scrollbar-hide",
-          inter.variable,
-          satoshi.variable
+          "min-h-screen bg-background select-none text-foreground antialiased font-default overflow-x-hidden !scrollbar-hide",
+          montserrat.className
         )}
       >
-        <Toaster richColors theme="dark" position="top-right" />
-        <Providers>
-          <ScrollArea className="h-screen">{children}</ScrollArea>
-        </Providers>
+        <Toaster />
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

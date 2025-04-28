@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import useStore from "@/context/gym-registration/gym-setup-context";
 import Image from "next/image";
+import { TextShimmer } from "@/components/ui/text-shimmer";
 
 interface Props {
   firstName: string;
@@ -51,7 +52,16 @@ const OnboardingHome = ({ firstName }: Props) => {
           </motion.div>
 
           <h1 className="text-3xl lg:text-5xl">
-            Welcome{firstName && <>, {firstName}!</>}
+            Welcome
+            <br />
+            {firstName && (
+              <TextShimmer
+                duration={1.2}
+                className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+              >
+                {firstName}
+              </TextShimmer>
+            )}
           </h1>
           <p className="text-lg lg:text-xl text-muted-foreground">
             Let&apos;s set up your gym in just a few quick steps. We&apos;ll
@@ -74,6 +84,7 @@ const OnboardingHome = ({ firstName }: Props) => {
         >
           <Button
             size={"lg"}
+            variant={"default"}
             className="text-xl p-6 cursor-pointer"
             onClick={() => setStep(1)}
           >

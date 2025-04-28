@@ -10,6 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Facebook, Instagram, Linkedin, Send, Twitter } from "lucide-react";
+import Link from "next/link";
 
 function FooterSection() {
   const [isDarkMode, setIsDarkMode] = React.useState(true);
@@ -35,7 +36,7 @@ function FooterSection() {
   }
 
   return (
-    <footer className="relative border-t bg-background dark:bg-black text-foreground transition-colors duration-300">
+    <footer className="relative border-t w-screen text-foreground transition-colors duration-300">
       <div className="container mx-auto px-4 py-12 md:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div className="relative">
@@ -185,15 +186,15 @@ function FooterSection() {
             © 2024 Your Company. All rights reserved.
           </p>
           <nav className="flex gap-4 text-sm">
-            <a href="#" className="transition-colors hover:text-primary">
+            <Link href="#" className="transition-colors hover:text-primary">
               Privacy Policy
-            </a>
-            <a href="#" className="transition-colors hover:text-primary">
+            </Link>
+            <Link href="#" className="transition-colors hover:text-primary">
               Terms of Service
-            </a>
-            <a href="#" className="transition-colors hover:text-primary">
+            </Link>
+            <Link href="#" className="transition-colors hover:text-primary">
               Cookie Settings
-            </a>
+            </Link>
           </nav>
         </div>
       </div>

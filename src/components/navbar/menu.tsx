@@ -17,7 +17,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { ThemeToggle } from "../ui/theme-toggle";
 
 interface Props {
   title: string;
@@ -49,6 +48,7 @@ const Menu = () => {
                   </Link>
                 </NavigationMenuLink>
               </li>
+
               <Item
                 title="Content Calendar"
                 href="/features/content-calendar"
@@ -75,26 +75,23 @@ const Menu = () => {
         </NavigationMenuItem>
 
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
-            <NavigationMenuLink className="h-full px-4 py-2 text-sm font-normal rounded-md text-black dark:text-white hover:text-foreground w-max hover:bg-none">
-              How it works
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink className="h-full px-4 py-2 text-sm font-normal rounded-md text-black dark:text-white hover:text-foreground w-max hover:bg-none">
+            How it works
+          </NavigationMenuLink>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
-          <Link href="/pricing" legacyBehavior passHref>
-            <NavigationMenuLink className="h-full px-4 py-2 text-sm font-normal rounded-md text-black dark:text-white hover:text-foreground w-max hover:bg-none">
-              Pricing
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink className="h-full px-4 py-2 text-sm font-normal rounded-md text-black dark:text-white hover:text-foreground w-max hover:bg-none">
+            Pricing
+          </NavigationMenuLink>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
-          <Link href="/integrations" legacyBehavior passHref>
-            <NavigationMenuLink className="h-full px-4 py-2 text-sm font-normal rounded-md text-black dark:text-white hover:text-foreground w-max hover:bg-none">
-              Book a demo
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink className="h-full px-4 py-2 text-sm font-normal rounded-md text-black dark:text-white hover:text-foreground w-max hover:bg-none">
+            Book a demo
+          </NavigationMenuLink>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <NavigationMenuTrigger className="text-black dark:text-white hover:text-foreground">
             Support
@@ -126,12 +123,10 @@ const Menu = () => {
 const Item = ({ title, href, children, icon, ...props }: Props) => {
   return (
     <li>
-      <NavigationMenuLink asChild>
-        <Link
-          passHref
+      <NavigationMenuLink asChild {...props}>
+        <a
           href={href}
-          {...props}
-          className="grid grid-cols-[.15fr_1fr] select-none space-y-1 rounded-lg p-3 leading-none no-underline outline-none transition-colors hover:bg-accent/50 hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground group"
+          className="flex flex-col justify-end w-full h-full p-4 no-underline rounded-lg outline-none select-none bg-gradient-to-tr from-accent to-accent/50 focus:shadow-md"
         >
           <div className="flex items-center mt-1 justify-center p-1 w-8 h-8 rounded-md border border-border/80">
             {icon}
@@ -144,7 +139,7 @@ const Item = ({ title, href, children, icon, ...props }: Props) => {
               {children}
             </p>
           </div>
-        </Link>
+        </a>
       </NavigationMenuLink>
     </li>
   );

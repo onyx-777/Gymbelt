@@ -3,9 +3,6 @@ import {
   IconAdjustmentsBolt,
   IconCloud,
   IconCurrencyDollar,
-  IconEaseInOut,
-  IconHeart,
-  IconHelp,
   IconRouteAltLeft,
   IconTerminal2,
 } from "@tabler/icons-react";
@@ -82,7 +79,7 @@ const Feature = ({
   return (
     <div
       className={cn(
-        "flex flex-col lg:border-r py-10 w-80 relative group/feature dark:border-neutral-800",
+        "flex flex-col lg:border-r py-10 w-80 relative group/feature dark:border-neutral-800"
         // (index === 0 || index === 4) && "lg:border-l dark:border-neutral-800",
         // index < 4 && "lg:border-b dark:border-neutral-800"
       )}
@@ -97,7 +94,7 @@ const Feature = ({
         {icon}
       </div>
       <div className="text-lg font-bold mb-2 relative z-10 px-10">
-        <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-[#7C3AED] group-hover/feature:bg-[#7C3AED] transition-all duration-200 origin-center" />
+        <div className="absolute left-0 inset-y-0 h-6 group-hover/feature:h-8 w-1 rounded-tr-full rounded-br-full bg-primary group-hover/feature:bg-primary transition-all duration-200 origin-center" />
         <span className="group-hover/feature:translate-x-2 transition duration-200 inline-block text-neutral-800 dark:text-neutral-100">
           {title}
         </span>

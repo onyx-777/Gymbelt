@@ -8,14 +8,14 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 
 const pricingCardVariants = cva(
-  "relative w-full min-w-56 max-w-[300px] transform overflow-hidden rounded-lg border shadow-lg transition duration-300",
+  "relative w-full min-w-56 max-w-[300px] transform overflow-hidden rounded-lg shadow-lg transition duration-300",
   {
     variants: {
       variant: {
         default:
-          "border-slate-700 bg-gradient-to-br from-slate-900 to-slate-800",
+          "dark:text-neutral-900 dark:bg-white border border-neutral-300 shadow-xl",
         outline:
-          "border-slate-700 bg-gradient-to-br from-slate-900 to-slate-800",
+          "dark:text-neutral-900 dark:bg-white border border-neutral-300 shadow-xl",
         ghost: "border-transparent bg-transparent",
       },
       size: {
@@ -80,14 +80,14 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
       >
         <div className="flex h-full flex-col justify-between">
           <div className="mb-4 lg:mb-6 xl:mb-8">
-            <h3 className="mb-2 text-2xl font-semibold text-primary lg:mb-4 lg:text-3xl xl:text-4xl">
+            <h3 className="mb-2 text-2xl font-semibold dark:text-white text-neutral-950 lg:mb-4 lg:text-3xl xl:text-4xl">
               {heading}
             </h3>
           </div>
 
           <div>
             <div className="mb-3 flex space-x-2 xl:mb-4">
-              <span className="text-3xl font-extrabold text-primary lg:text-4xl xl:text-5xl">
+              <span className="text-3xl font-extrabold dark:text-white text-neutral-950 lg:text-4xl xl:text-5xl">
                 ${discount ? withDiscount : price}{" "}
                 <span className="text-muted-foreground text-sm">
                   {description}
@@ -108,16 +108,16 @@ const PricingCard = React.forwardRef<HTMLDivElement, PricingCardProps>(
 
             <Button
               onClick={onButtonClick}
-              className="w-full text-white bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-200 hover:to-gray-100 hover:text-black"
+              className="w-full dark:text-black dark:bg-white bg-black text-white"
             >
               {buttonText}
             </Button>
 
-            <ul className="mt-4 space-y-1 text-gray-200 lg:mt-6 lg:text-lg xl:mt-8 xl:text-xl">
+            <ul className="mt-4 space-y-1 dark:text-white text-neutral-950 lg:mt-6 lg:text-lg xl:mt-8 xl:text-xl">
               {listHeading && <h5>{listHeading}</h5>}
               {list.map((text, index) => (
                 <li key={index} className="flex items-center">
-                  <Check className="mr-2 h-5 w-5 text-emerald-500" />
+                  <Check className="mr-2 p-0.5 font-bold h-5 w-5 text-white rounded-full bg-green-600" />
                   <span>{text}</span>
                 </li>
               ))}

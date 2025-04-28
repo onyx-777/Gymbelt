@@ -2,15 +2,24 @@
 
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useTheme } from "next-themes"; // Import next-themes
+import { useTheme } from "next-themes";
+import React from "react";
 
 interface ThemeToggleProps {
   className?: string;
 }
 
 export function ThemeToggle({ className }: ThemeToggleProps) {
-  const { theme, setTheme } = useTheme(); // Access the current theme and the function to set the theme
-  const isDark = theme === "dark"; // Check if the current theme is dark
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null; // Prevent hydration mismatch
+
+  const isDark = theme === "dark";
 
   return (
     <div
@@ -21,7 +30,7 @@ export function ThemeToggle({ className }: ThemeToggleProps) {
           : "bg-white border border-zinc-200",
         className
       )}
-      onClick={() => setTheme(isDark ? "light" : "dark")} // Toggle the theme on click
+      onClick={() => setTheme(isDark ? "light" : "dark")}
       role="button"
       tabIndex={0}
     >
