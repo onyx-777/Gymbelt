@@ -1,8 +1,11 @@
+import { getGymDetails } from "@/actions/db/gym";
 import Website from "@/components/pages/gym/admin/features/website";
 import React from "react";
 
-const Page = () => {
-  return <Website gymName="GYM NAME" />;
+const Page = async () => {
+  const gymDetails = await getGymDetails();
+  if (!gymDetails?.ownedGym) return;
+  return <Website gymName={gymDetails.ownedGym.name} />;
 };
 
 export default Page;

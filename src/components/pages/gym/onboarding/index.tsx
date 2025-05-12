@@ -285,7 +285,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -316,7 +316,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -364,7 +364,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -395,7 +395,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -415,7 +415,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -441,7 +441,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -470,7 +470,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>

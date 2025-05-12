@@ -19,9 +19,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <link
+          rel="preload"
+          href="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
+          as="fetch"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body
         className={cn(
-          "min-h-screen bg-background select-none text-foreground antialiased font-default overflow-x-hidden !scrollbar-hide",
+          "min-h-screen overflow-auto no-scrollbar bg-background select-none text-foreground antialiased font-default overflow-x-hidden !scrollbar-hide",
           montserrat.className
         )}
       >

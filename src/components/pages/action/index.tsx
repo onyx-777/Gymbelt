@@ -49,7 +49,7 @@ const UserAction = ({ userName }: Props) => {
             <div className=" w-full h-fit flex flex-col gap-8 justify-center items-center">
               <h1 className="text-5xl w-full font-semibold text-center">
                 Welcome <br />
-                <TextShimmer className="font-semibold [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]">
+                <TextShimmer className="font-semibold [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]">
                   {userName as string}
                 </TextShimmer>
               </h1>

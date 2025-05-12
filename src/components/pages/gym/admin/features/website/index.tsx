@@ -28,7 +28,10 @@ export default function Website({ gymName }: Props) {
           <div className="space-y-2">
             <h2 className="text-2xl font-bold tracking-tight">Website</h2>
             <p className="text-muted-foreground">
-              Seamlessly Customize Your {gymName ? gymName : <>Gyms&apos;s</>}{" "}
+              Seamlessly Customize Your{" "}
+              <span className="font-bold mx-1">
+                {gymName ? gymName : <>Gyms&apos;s</>}
+              </span>
               Website with Ease
             </p>
           </div>

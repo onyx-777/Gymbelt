@@ -67,13 +67,13 @@ const OnboardingInput = ({
                 </span>
               </h1>
 
-              <div className="flex flex-col justify-center items-center gap-7 w-full">
+              <div className="flex flex-col justify-center items-center gap-4 w-full">
                 <FormField
                   control={form.control}
                   name={FirstRegisterName}
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-center justify-center w-full max-w-md">
-                      <FormLabel className="w-full">
+                      <FormLabel className="w-full hidden">
                         <h1 className="w-full rounded-md text-white px-3 text-left text-base font-medium">
                           {FirstLabel}
                         </h1>
@@ -99,7 +99,7 @@ const OnboardingInput = ({
                   name={SecondRegisterName}
                   render={({ field }) => (
                     <FormItem className="flex flex-col items-center justify-center w-full max-w-sm">
-                      <FormLabel className="w-full">
+                      <FormLabel className="w-full hidden">
                         <h1 className=" w-full rounded-md text-white px-3 text-left text-base font-medium">
                           {SecondLabel}
                         </h1>

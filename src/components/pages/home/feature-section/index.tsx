@@ -10,7 +10,7 @@ function Features() {
       initial={{ y: 100, opacity: 0 }} // Initial state: hidden and positioned off-screen
       //   animate={{ y: 0, opacity : 1 }} // Animate on scroll into view
       whileInView={{ y: 0, opacity: 1 }}
-      transition={{ duration: 1, delay: 1 }} // Transition properties
+      transition={{ duration: 1, delay: 0 }} // Transition properties
       className="min-h-full w-full flex flex-col justify-center items-center gap-10 mt-50 lg:mt-10"
     >
       <SectionBadge title="Features" />

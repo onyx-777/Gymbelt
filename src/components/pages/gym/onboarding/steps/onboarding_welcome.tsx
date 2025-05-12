@@ -41,7 +41,7 @@ const OnboardingHome = ({ firstName }: Props) => {
                 duration: 0.5,
               },
             }}
-            className="relative w-40 aspect-square mb-20"
+            className="relative w-40 aspect-square mb-8"
           >
             <Image
               src={"/assets/logo.png"}
@@ -51,19 +51,18 @@ const OnboardingHome = ({ firstName }: Props) => {
             />
           </motion.div>
 
-          <h1 className="text-3xl lg:text-5xl">
-            Welcome
-            <br />
+          <h1 className="text-5xl space-x-3">
+            <span>Welcome</span>
             {firstName && (
               <TextShimmer
                 duration={1.2}
-                className="text-4xl leading-16 font-medium [--base-color:theme(colors.orange.600)] [--base-gradient-color:theme(colors.orange.200)] dark:[--base-color:theme(colors.orange.700)] dark:[--base-gradient-color:theme(colors.orange.400)]"
+                className="text-5xl leading-16 font-bold [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
               >
                 {firstName}
               </TextShimmer>
             )}
           </h1>
-          <p className="text-lg lg:text-xl text-muted-foreground">
+          <p className="text-lg lg:text-lg text-muted-foreground">
             Let&apos;s set up your gym in just a few quick steps. We&apos;ll
             handle the rest—easy peasy!
           </p>

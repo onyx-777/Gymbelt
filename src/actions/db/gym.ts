@@ -7,10 +7,6 @@ import { getGymOwnerIdInDB } from "./users";
 import { cacheLife } from "next/dist/server/use-cache/cache-life";
 import { cacheTag } from "next/dist/server/use-cache/cache-tag";
 
-export const invalidateGymsCache = async () => {
-  await prisma.$accelerate.invalidate({ tags: ["gyms"] });
-};
-
 export const doesGymExist = async () => {
   try {
     const user = await currentUser();
@@ -142,8 +138,6 @@ export const upsertGymInDB = async (gym: GymOnboardingSchemaType) => {
         console.error("Error updating Clerk user metadata:", error);
       }
     }
-    await invalidateGymsCache();
-
     return createOrUpdateGym;
   } catch (error) {
     console.error("Error in upsertGymInDB:", error);
@@ -175,8 +169,6 @@ export const getGymDetails = async () => {
       },
     });
 
-    await invalidateGymsCache();
-
     return gyms;
   } catch (error) {
     console.log("error in getGymDetails : ", error);
@@ -202,8 +194,6 @@ export const getGymDetailsFromSubdomain = async (subdomain: string) => {
       },
     });
     console.log("gyms in actions : ", gyms);
-
-    await invalidateGymsCache();
 
     return gyms;
   } catch (error) {
@@ -250,6 +240,8 @@ export const getAllGyms = async () => {
         address: true,
         name: true,
         logo: true,
+        facilities: true,
+        services: true,
       },
       cacheStrategy: {
         ttl: 3600, // Cache for 1 hour
