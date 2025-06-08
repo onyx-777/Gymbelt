@@ -52,7 +52,7 @@ export function SplineScene({
       {loadSpline && (
         <Suspense
           fallback={
-            <div className="h-screen w-screen z-[9999999999] bg-black overflow-hidden flex justify-center items-center">
+            <div className="h-screen w-screen z-[50] bg-black overflow-hidden flex justify-center items-center">
               <span className="loader"></span>
             </div>
           }

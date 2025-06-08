@@ -9,6 +9,7 @@ datasource db {
 
 enum Role {
   GYM_OWNER
+  MEMBER
   USER
 }
 
@@ -28,73 +29,75 @@ enum MembershipStatus {
   INACTIVE
 }
 
+enum CashfreeKYCstatus {
+  MIN_KYC_PENDING
+  MIN_KYC_SUBMITTED
+  MIN_KYC_APPROVED
+  MIN_KYC_REJECTED
+}
+
+enum Cashfree_Payment_activation_status {
+  PENDING
+  ACTIVE
+}
+
 model User {
-  id           String     @id @default(uuid())
-  clerkId      String     @unique
-  oauth        Provider
-  firstName    String?
-  lastName     String?
-  username     String?    @unique
-  avatar       String?
-  cover        String?
-  email        String     @unique
-  phoneNumber  String?    @unique
-  dateOfBirth  DateTime?
-  gender       String?
-  fitnessGoals String?
-  fitnessLevel String?
-  bodyStats    BodyStats?
-  joinDate     DateTime   @default(now())
-
-  // Gym ownership
-  ownedGym   Gym?    @relation("GymOwnerRelation", fields: [ownedGymId], references: [id])
-  ownedGymId String? @unique
-
-  // Memberships (subscriptions)
-  gymMembershipsJoined GymMembership[]
-
-  // Other features
-  workouts  Workout[]
-  nutrition Nutrition[]
-  badges    Badge[]
-
-  role      Role?    @default(USER)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id            String          @id @default(uuid())
+  clerkId       String          @unique
+  oauth         Provider
+  firstName     String?
+  lastName      String?
+  username      String?         @unique
+  avatar        String?
+  email         String          @unique
+  phoneNumber   String?         @unique
+  role          Role?           @default(USER)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  GymMembership GymMembership[]
+  gymId         String?
+  Gym           Gym?            @relation(fields: [gymId], references: [id])
 }
 
 model Gym {
-  id             String    @id @default(uuid())
-  name           String
-  logo           String
-  address        String
-  phoneNumber    String
-  email          String
-  website        String?
-  slogan         String
-  subdomain      String    @unique
-  description    String?
-  facilities     String[]
-  services       String[]
-  isVerified     Boolean   @default(false)
-  isActive       Boolean   @default(true)
-  isTrial        Boolean   @default(true)
-  trialEndsAt    DateTime?
-  trialStartedAt DateTime?
-  planStartedAt  DateTime?
-  planEndsAt     DateTime?
-  planStatus     String    @default("active")
-  GST_Number     String?
-  GST_Registered Boolean   @default(false)
-  License_Number String?
-
-  gymOwner User? @relation("GymOwnerRelation")
-
-  membershipTemplates MembershipTemplate[] // 👈 Predefined plans
-  memberships         GymMembership[] // 👈 Subscribed users
-  Payment             Payment[]
-  createdAt           DateTime             @default(now())
-  updatedAt           DateTime             @updatedAt
+  id                        String                             @id @default(uuid())
+  cashfreeMerchantId        String                             @unique
+  kyc_status                CashfreeKYCstatus                  @default(MIN_KYC_PENDING)
+  Payment_activation_status Cashfree_Payment_activation_status @default(PENDING)
+  name                      String
+  logo                      String
+  streetAddress             String
+  city                      String
+  state                     String
+  pinCode                   String
+  phoneNumber               String
+  email                     String
+  businessModel             String
+  businessType              String
+  website                   String?
+  slogan                    String
+  subdomain                 String                             @unique
+  description               String?
+  facilities                String[]
+  services                  String[]
+  isVerified                Boolean                            @default(false)
+  isActive                  Boolean                            @default(true)
+  isTrial                   Boolean                            @default(true)
+  trialEndsAt               DateTime?
+  trialStartedAt            DateTime?
+  planStartedAt             DateTime?
+  planEndsAt                DateTime?
+  planStatus                String                             @default("active")
+  GST_Number                String?
+  GST_Registered            Boolean                            @default(false)
+  License_Number            String?
+  membershipTemplates       MembershipTemplate[] // 👈 Predefined plans
+  memberships               GymMembership[] // 👈 Subscribed users
+  Payment                   Payment[]
+  createdAt                 DateTime                           @default(now())
+  updatedAt                 DateTime                           @updatedAt
+  ownerId                   String?
+  owner                     User[]
 }
 
 model MembershipTemplate {
@@ -128,56 +131,56 @@ model GymMembership {
   membershipTemplate MembershipTemplate @relation(fields: [membershipTemplateId], references: [id])
   Payment            Payment[]
 
-  @@unique([gymId, userId])
+  @@index([gymId, userId])
 }
 
-model BodyStats {
-  id        String   @id @default(uuid())
-  userId    String   @unique
-  age       Float
-  weight    Float
-  height    Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user      User     @relation(fields: [userId], references: [id])
-}
+// model BodyStats {
+//   id        String   @id @default(uuid())
+//   userId    String   @unique
+//   age       Float
+//   weight    Float
+//   height    Float
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   user      User     @relation(fields: [userId], references: [id])
+// }
 
-model Workout {
-  id             String   @id @default(uuid())
-  userId         String
-  date           DateTime @default(now())
-  duration       Int
-  caloriesBurned Int
-  exercises      String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  user           User     @relation(fields: [userId], references: [id])
-}
+// model Workout {
+//   id             String   @id @default(uuid())
+//   userId         String
+//   date           DateTime @default(now())
+//   duration       Int
+//   caloriesBurned Int
+//   exercises      String
+//   createdAt      DateTime @default(now())
+//   updatedAt      DateTime @updatedAt
+//   user           User     @relation(fields: [userId], references: [id])
+// }
 
-model Nutrition {
-  id          String   @id @default(uuid())
-  userId      String
-  date        DateTime @default(now())
-  calories    Int
-  protein     Int
-  carbs       Int
-  fats        Int
-  mealDetails String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id])
-}
+// model Nutrition {
+//   id          String   @id @default(uuid())
+//   userId      String
+//   date        DateTime @default(now())
+//   calories    Int
+//   protein     Int
+//   carbs       Int
+//   fats        Int
+//   mealDetails String
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//   user        User     @relation(fields: [userId], references: [id])
+// }
 
-model Badge {
-  id          String   @id @default(uuid())
-  userId      String
-  name        String
-  description String
-  dateEarned  DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  user        User     @relation(fields: [userId], references: [id])
-}
+// model Badge {
+//   id          String   @id @default(uuid())
+//   userId      String
+//   name        String
+//   description String
+//   dateEarned  DateTime @default(now())
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+//   user        User     @relation(fields: [userId], references: [id])
+// }
 
 model Payment {
   id                String        @id @default(uuid())

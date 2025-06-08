@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useState } from "react";
-import { createPaymentSession } from "@/actions/payments";
+import { createPaymentSession } from "@/actions/cashfree";
 import { PaymentResult } from "./_component/cashfree-checkout";
 import Checkout from "./_component/cashfree-checkout";
 
@@ -59,7 +59,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="max-w-md mx-auto p-6">
-      {/* <h1 className="text-2xl font-bold mb-6">Checkout</h1>
+      <h1 className="text-2xl font-bold mb-6">Checkout</h1>
 
       {!paymentSessionId ? (
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -120,18 +120,19 @@ export default function CheckoutPage() {
             {isLoading ? "Processing..." : "Pay Now"}
           </button>
         </form>
-      ) : ( */}
-      <Checkout
-        paymentSessionId="session_AqbTEAFrXrE1GezpjOoa8mx2M3oYuHA1Gu-teTTq1ypYLD18ET7OMocUoWLqPuN6fctAwVgihktJjQc0kQTtKgI8RtAPlHKZf7kDlP2Yt3Y14UbYHQnMXGnsMwpaymentpayment"
-        customerDetails={{
-          name: "John Doe",
-          email: "john@example.com",
-          phone: "1234567890",
-          amount: "1000",
-        }}
-        onSuccess={handlePaymentSuccess}
-        onError={handlePaymentError}
-      />
+      ) : (
+        <Checkout
+          paymentSessionId={paymentSessionId}
+          customerDetails={{
+            name: "John Doe",
+            email: "john@example.com",
+            phone: "1234567890",
+            amount: "100",
+          }}
+          onSuccess={handlePaymentSuccess}
+          onError={handlePaymentError}
+        />
+      )}
     </div>
   );
 }

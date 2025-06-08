@@ -5,6 +5,7 @@ import {
   IconUser,
   IconTool,
   IconNotification,
+  IconCurrencyRupee,
 } from "@tabler/icons-react";
 import React from "react";
 
@@ -52,9 +53,9 @@ const sidebarNavItems = [
     icon: <IconNotification size={18} />,
     href: "/gyms/chc/admin/settings/notifications",
   },
-  // {
-  //   title: "Display",
-  //   icon: <IconBrowserCheck size={18} />,
-  //   href: "/gyms/chc/admin/settings/display",
-  // },
+  {
+    title: "Payments",
+    icon: <IconCurrencyRupee size={18} />,
+    href: "/gyms/chc/admin/settings/payments",
+  },
 ];

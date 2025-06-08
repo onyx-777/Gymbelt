@@ -1,49 +1,31 @@
-"use client";
-import * as React from "react";
-import {
-  FlipCard,
-  FlipCardFront,
-  FlipCardBack,
-} from "@/components/ui/flip-card";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-export default function FlipCardDemo() {
-  return (
-    <div className="container py-12">
-      <div className="flex flex-wrap justify-center gap-4">
-        <FlipCard className="h-96 w-2/6">
-          <FlipCardFront className="rounded-xl">
-            <Image
-              width={1015}
-              height={678}
-              src="https://images.unsplash.com/photo-1552346154-21d32810aba3?q=80&w=2340&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="nike air jordan"
-              className="size-full object-cover"
-            />
-          </FlipCardFront>
-          <FlipCardBack className="flex flex-col items-center justify-center rounded-xl bg-rose-600 px-4 py-6 text-center text-white">
-            <h2 className="text-xl font-bold">Nike Air Jordan</h2>
-            <h4 className="mb-4">€ 1,299.00</h4>
-            <Button className="rounded-full">Add to cart</Button>
-          </FlipCardBack>
-        </FlipCard>
+import React from "react";
+import { cn } from "@/lib/utils";
+import { Spotlight } from "@/components/ui/spotlight";
 
-        <FlipCard flipDirection="vertical" className="h-96 w-2/6">
-          <FlipCardFront className="rounded-xl">
-            <Image
-              width={542}
-              height={678}
-              src="https://images.unsplash.com/photo-1617814121568-9b184eaabf08?q=80&w=2264&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-              alt="nike air jordan"
-              className="size-full object-cover"
-            />
-          </FlipCardFront>
-          <FlipCardBack className="flex flex-col items-center justify-center rounded-xl bg-emerald-500 px-4 py-6 text-center text-white">
-            <h2 className="text-xl font-bold">Nike Air Jordan</h2>
-            <h4 className="mb-4">€ 1,299.00</h4>
-            <Button className="rounded-full">Add to cart</Button>
-          </FlipCardBack>
-        </FlipCard>
+export default function SpotlightPreview() {
+  return (
+    <div className="relative flex h-[40rem] w-full overflow-hidden rounded-md bg-black/[0.96] antialiased md:items-center md:justify-center">
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-0 [background-size:40px_40px] select-none",
+          "[background-image:linear-gradient(to_right,#171717_1px,transparent_1px),linear-gradient(to_bottom,#171717_1px,transparent_1px)]"
+        )}
+      />
+
+      <Spotlight
+        className="-top-40 left-0 md:-top-20 md:left-60"
+        fill="white"
+      />
+      <div className="relative z-10 mx-auto w-full max-w-7xl p-4 pt-20 md:pt-0">
+        <h1 className="bg-opacity-50 bg-gradient-to-b from-neutral-50 to-neutral-400 bg-clip-text text-center text-4xl font-bold text-transparent md:text-7xl">
+          Spotlight <br /> is the new trend.
+        </h1>
+        <p className="mx-auto mt-4 max-w-lg text-center text-base font-normal text-neutral-300">
+          Spotlight effect is a great way to draw attention to a specific part
+          of the page. Here, we are drawing the attention towards the text
+          section of the page. I don&apos;t know why but I&apos;m running out of
+          copy.
+        </p>
       </div>
     </div>
   );

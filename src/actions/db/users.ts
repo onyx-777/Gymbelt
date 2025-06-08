@@ -6,15 +6,14 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 export const createUserInDB = async (userInfo: Partial<User>) => {
+  console.log("inside createUserInDB function : ", userInfo);
   if (
     !userInfo.email ||
     !userInfo.clerkId ||
     !userInfo.oauth ||
     !userInfo.lastName ||
     !userInfo.avatar ||
-    !userInfo.dateOfBirth ||
-    !userInfo.firstName ||
-    !userInfo.gender
+    !userInfo.firstName
   )
     return null;
   try {
@@ -27,9 +26,7 @@ export const createUserInDB = async (userInfo: Partial<User>) => {
         oauth: userInfo.oauth,
         lastName: userInfo.lastName,
         avatar: userInfo.avatar,
-        dateOfBirth: userInfo.dateOfBirth,
         firstName: userInfo.firstName,
-        gender: userInfo.gender,
       },
       select: {
         id: true,
@@ -109,6 +106,7 @@ export const getGymOwnerIdInDB = async () => {
       select: {
         id: true,
         clerkId: true,
+        role: true,
       },
     });
 

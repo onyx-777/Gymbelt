@@ -1,5 +1,3 @@
-import { LoadingWrapper } from "@/components/global/loading-wrapper";
-import Navbar from "@/components/navbar";
 import { BookADemo } from "@/components/pages/home/Book-a-demo";
 import { Features } from "@/components/pages/home/feature-section";
 import { Footer } from "@/components/pages/home/footer";
@@ -10,18 +8,16 @@ import { TestimonialsSection } from "@/components/pages/home/testimonials";
 
 export default function Home() {
   return (
-    <LoadingWrapper>
-      <div className="flex flex-col justify-center items-center lg:gap-36 lg:-mt-36">
-        <Navbar />
-        <Hero />
-        <Features />
-        <HowItWorksSection />
-        <TestimonialsSection />
-        {/* <PricingSection /> */}
-        <BookADemo />
-        {/* <TrustedTechSection /> */}
-        <Footer />
-      </div>
-    </LoadingWrapper>
+    <div className="flex flex-col justify-center items-center">
+      {/* <Navbar /> */}
+      <Hero />
+      <Features />
+      <HowItWorksSection />
+      <TestimonialsSection />
+      {/* <PricingSection /> */}
+      <BookADemo />
+      {/* <TrustedTechSection /> */}
+      <Footer />
+    </div>
   );
 }

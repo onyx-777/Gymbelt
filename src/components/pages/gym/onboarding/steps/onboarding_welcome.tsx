@@ -53,6 +53,7 @@ const OnboardingHome = ({ firstName }: Props) => {
 
           <h1 className="text-5xl space-x-3">
             <span>Welcome</span>
+            <br />
             {firstName && (
               <TextShimmer
                 duration={1.2}

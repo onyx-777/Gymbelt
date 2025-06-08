@@ -19,10 +19,9 @@ import {
 import { UseFormReturn } from "react-hook-form";
 import useStore from "@/context/gym-registration/gym-setup-context";
 import ModalProvider from "../../../admin/features/scheduler/providers/modal-context";
-// import { useRouter } from "next/navigation";
 
 interface Props {
-  Icon?: React.ElementType;
+  Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   componentHeadline: string | React.ReactNode;
   registerName: OnboardingFieldNames;
   form: UseFormReturn<any>;
@@ -87,11 +86,11 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
         className="flex flex-col items-center justify-center h-full w-full -mb-10"
       >
         <div className="flex flex-col items-center justify-center h-full w-full max-w-sm">
-          <div className="flex flex-col w-full justify-center items-center gap-3">
-            <h1 className="flex flex-col gap-5 justify-center items-center w-full">
+          <div className="flex flex-col w-full justify-center items-center">
+            <h1 className="flex flex-col gap-2 justify-center items-center w-full">
               {Icon && (
-                <span className="text-theme rounded-full p-5 bg-theme/20">
-                  <Icon className="w-[36px] h-[36px] md:w-[40px] md:h-[40px]" />
+                <span className="text-theme rounded-full p-5 bg-primary/20">
+                  <Icon className="text-primary w-[36px] h-[36px] md:w-[40px] md:h-[40px]" />
                 </span>
               )}
               <span className="text-3xl lg:text-4xl w-full font-semibold">
@@ -106,12 +105,11 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
                     <CarouselItem key={index} className="basis-full">
                       <div className="flex items-center justify-center p-4 relative">
                         <X
-                          className="w-6 h-6 font-bold bg-red-600 text-white absolute rounded-full p-1 top-2 right-2 z-50 cursor-pointer hover:bg-destructive/90"
+                          className="w-6 h-6 font-bold bg-red-600 text-red absolute rounded-full p-1 top-2 md:top-8 right-2 md:right-6 z-50 cursor-pointer hover:bg-destructive/90"
                           onClick={() =>
                             handleMemberShipDelete(memberships.planName)
                           }
                         />
-
                         <PricingCard
                           heading={memberships.planName}
                           description={
@@ -131,7 +129,7 @@ const OnboardingMembershipCarousal = ({ componentHeadline, Icon }: Props) => {
                             ...memberships.services,
                             ...memberships.facilities,
                           ]}
-                          className="w-full max-w-sm h-full max-h-96 overflow-y-scroll"
+                          className="min-w-full max-h-96 h-80 md:h-96 md:mt-5 pb-5 overflow-hidden"
                         />
                       </div>
                     </CarouselItem>

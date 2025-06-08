@@ -4,6 +4,7 @@
 import { useState, useEffect, useRef } from "react";
 //@ts-expect-error
 import { load } from "@cashfreepayments/cashfree-js";
+import { Button } from "@/components/ui/button";
 
 interface PaymentDetails {
   name: string;
@@ -159,14 +160,14 @@ function Checkout({
         <p>Email: {customerDetails.email}</p>
       </div>
 
-      <button
+      <Button
         type="button"
         className="payment-button"
         onClick={handlePayment}
         disabled={isProcessing || !cashfreeInstance.current}
       >
         {isProcessing ? "Processing Payment..." : "Pay Now"}
-      </button>
+      </Button>
     </div>
   );
 }

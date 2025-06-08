@@ -15,6 +15,7 @@ import {
   IconUserCog,
   IconUserOff,
   IconUsers,
+  IconCurrencyRupee,
 } from "@tabler/icons-react";
 import {
   AudioWaveform,
@@ -179,11 +180,11 @@ export const sidebarData: SidebarData = {
               url: "/gyms/chc/admin/settings/notifications",
               icon: IconNotification,
             },
-            // {
-            //   title: "Display",
-            //   url: "/gyms/chc/admin/settings/display",
-            //   icon: IconBrowserCheck,
-            // },
+            {
+              title: "Payments",
+              url: "/gyms/chc/admin/settings/payments",
+              icon: IconCurrencyRupee,
+            },
           ],
         },
         {

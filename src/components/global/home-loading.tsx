@@ -7,7 +7,7 @@ export function HomeLoading() {
 
   React.useEffect(() => {
     const startTime = performance.now();
-    const duration = 5000; // 5 seconds
+    const duration = 3000; // 3 seconds
 
     const updateProgress = (currentTime: number) => {
       const elapsed = currentTime - startTime;

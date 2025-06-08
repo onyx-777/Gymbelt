@@ -11,7 +11,7 @@ export function LoadingWrapper({ children }: { children: React.ReactNode }) {
     // Start loading timer
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000);
+    }, 3000);
 
     // Set content as ready in next tick to ensure initial render
     Promise.resolve().then(() => {

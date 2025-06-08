@@ -12,6 +12,8 @@ import { UseFormReturn } from "react-hook-form";
 import { OnboardingFormTypes } from "@/types/onboarding";
 import { toast } from "sonner";
 import { upsertGymInDB } from "@/actions/db/gym";
+import { createMerchant } from "@/actions/cashfree";
+import { nanoid } from "nanoid";
 
 interface Props {
   submitForm: (data: OnboardingFormTypes) => void;
@@ -31,29 +33,87 @@ const OnboardingNav = ({ submitForm, form }: Props) => {
 
   const handleSubmitClick = async () => {
     if (step === TOTAL_ONBOARDING_STEPS) {
-      console.log("redirecting to dashboard step = 10");
+      console.log("redirecting to dashboard");
 
       const gymData = await getCompleteData(); // Extract the complete gym data from the store
 
       console.log("gymData : ", gymData);
 
-      // Pass the gym data to upsertGymInDB
-      const addGymDetails = await upsertGymInDB(gymData);
+      const generateMerchantId = () => nanoid(); // default is 21 characters
 
-      console.log("addGymDetails resposne : ", addGymDetails);
+      const merchant_id = generateMerchantId(); // Secure & unique ID
 
-      window.location.href = `${process.env.NEXT_PUBLIC_PROTOCOL}://${subdomain}.${process.env.NEXT_PUBLIC_DOMAIN}`;
-      // window.location.href = "http://chc.localhost:3000";
+      console.log("going for merchant creation in onboarding nav");
+
+      try {
+        console.log(
+          "going for merchant creation inside try block onboarding nav"
+        );
+
+        console.log(
+          "website : ",
+          gymData?.logoWebsite?.gymWebsite?.trim()
+            ? gymData.logoWebsite.gymWebsite.trim()
+            : `${process.env.NEXT_PUBLIC_PROTOCOL}://${gymData?.sloganSubdomain?.subdomain}.${process.env.NEXT_PUBLIC_DOMAIN}`
+        );
+        const merchantCreated = await createMerchant(
+          {
+            merchant_id: merchant_id,
+            merchant_name: gymData.gymNameAddress.gymName,
+            merchant_email: gymData.phoneEmail.gymEmail,
+            merchant_site_url: gymData?.logoWebsite?.gymWebsite?.trim()
+              ? gymData.logoWebsite.gymWebsite.trim()
+              : `${process.env.NEXT_PUBLIC_PROTOCOL}://${gymData?.sloganSubdomain?.subdomain}.${process.env.NEXT_PUBLIC_DOMAIN}`,
+            poc_phone: gymData.phoneEmail.gymPhoneNumber, // Adjust according to your data structure
+            business_details: {
+              business_legal_name: gymData.gymNameAddress.gymName,
+              business_model: gymData.gymBusinessTypeModel.businessModel,
+              business_type: gymData.gymBusinessTypeModel.businessType,
+            }, // Adjust according to your data structure
+          },
+          gymData.sloganSubdomain.subdomain
+        );
+
+        console.log("Merchant created in successfully : ", merchantCreated);
+
+        console.log("going for gym creation");
+
+        if (merchantCreated) {
+          // Pass the gym data to upsertGymInDB
+
+          console.log("going for gym creation in if block");
+
+          const addGymDetails = await upsertGymInDB(
+            gymData,
+            merchantCreated.merchant_id,
+            "MIN_KYC_PENDING",
+            "PENDING"
+          );
+
+          console.log("added GymDetails resposne : ", addGymDetails);
+
+          if (addGymDetails) {
+            console.log(
+              "redirecting to ... subdomain.domain but commented, uncomment to use it",
+              subdomain
+            );
+            // window.location.href = `${process.env.NEXT_PUBLIC_PROTOCOL}://${subdomain}.${process.env.NEXT_PUBLIC_DOMAIN}`;
+            // // window.location.href = "http://chc.localhost:3000";
+          }
+        }
+      } catch (error) {
+        console.log("error creating merchant : ", error);
+      }
     }
     // Execute the form submission firsta
 
-    console.log("step : ", step);
+    console.log("step in onboarding nav : ", step);
     if (step < TOTAL_ONBOARDING_STEPS) {
       form.handleSubmit(submitForm)();
 
       // If form value is missing or undefined, show an error
       if (
-        step === 9 &&
+        step === 10 &&
         (!memberships || memberships === undefined || memberships.length === 0)
       ) {
         toast.error("No memberships created", {
@@ -63,7 +123,7 @@ const OnboardingNav = ({ submitForm, form }: Props) => {
       }
 
       // Proceed to next step if the form is valid
-      if (step === 9 && memberships.length > 0) {
+      if (step === 10 && memberships.length > 0) {
         increaseStep();
       }
     }

@@ -4,8 +4,8 @@ import React from "react";
 
 const Page = async () => {
   const gymDetails = await getGymDetails();
-  if (!gymDetails?.ownedGym) return;
-  return <Website gymName={gymDetails.ownedGym.name} />;
+  if (!gymDetails?.Gym) return;
+  return <Website gymDetails={gymDetails} />;
 };
 
 export default Page;

@@ -1,49 +1,65 @@
 "use server";
+
 import prisma from "@/lib/prisma";
 import { GymOnboardingSchemaType } from "@/schemas/onboarding";
-import { clerkClient, currentUser } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { getGymOwnerIdInDB } from "./users";
 import { cacheLife } from "next/dist/server/use-cache/cache-life";
 import { cacheTag } from "next/dist/server/use-cache/cache-tag";
+import {
+  Cashfree_Payment_activation_status,
+  CashfreeKYCstatus,
+} from "@prisma/client/edge";
 
 export const doesGymExist = async () => {
   try {
     const user = await currentUser();
     if (!user) redirect("/sign-in");
+
     const gymId = await prisma.user.findUnique({
       where: {
         clerkId: user.id,
       },
       select: {
-        ownedGymId: true,
+        id: true,
+        role: true,
       },
     });
 
     return gymId;
   } catch (error) {
-    console.log("error in doesGymExist ; ", error);
+    console.log("error in doesGymExist:", error);
   }
 };
 
-export const upsertGymInDB = async (gym: GymOnboardingSchemaType) => {
+export const upsertGymInDB = async (
+  gym: GymOnboardingSchemaType,
+  cashfreeMerchantId: string,
+  kyc_status?: CashfreeKYCstatus,
+  Payment_activation_status?: Cashfree_Payment_activation_status
+) => {
   console.log("Gym data:", gym);
 
-  // Retrieve the gym owner
-  const gymOwnerId = await getGymOwnerIdInDB();
-  if (!gymOwnerId?.id) {
-    console.error("Gym owner ID is missing.");
-    return null;
-  }
+  const user = await currentUser();
+  if (!user) redirect("/sign-in");
 
+  // await prisma.membershipTemplate.deleteMany({
+  //   where: {
+  //     gymId: "8a7a6b36-8523-46c5-b20e-bd15e570da44",
+  //   },
+  // });
+
+  // await prisma.gym.delete({
+  //   where: {
+  //     id: "8a7a6b36-8523-46c5-b20e-bd15e570da44",
+  //   },
+  // });
   try {
-    // Check if the gym already exists with the provided subdomain
     const existingGym = await prisma.gym.findUnique({
       where: { subdomain: gym.sloganSubdomain.subdomain },
-      select: { id: true, membershipTemplates: true }, // Only check for membershipTemplates
+      select: { id: true, membershipTemplates: true },
     });
 
-    // Check if the membership templates have changed
     const membershipsAreDifferent =
       existingGym?.membershipTemplates.length !== gym.memberships.length ||
       !existingGym.membershipTemplates.every((m, idx) => {
@@ -57,16 +73,26 @@ export const upsertGymInDB = async (gym: GymOnboardingSchemaType) => {
         );
       });
 
-    // Upsert the gym (create or update)
+    console.log("going for create gym in upset gym in db action gym");
     const createOrUpdateGym = await prisma.gym.upsert({
       where: { subdomain: gym.sloganSubdomain.subdomain },
       create: {
         name: gym.gymNameAddress.gymName,
-        address: gym.gymNameAddress.gymAddress,
+        cashfreeMerchantId,
+        kyc_status,
+        Payment_activation_status,
+        streetAddress: gym.gymNameAddress.streetAddress,
+        city: gym.gymNameAddress.city,
+        state: gym.gymNameAddress.state,
+        pinCode: gym.gymNameAddress.pinCode,
         phoneNumber: gym.phoneEmail.gymPhoneNumber,
         email: gym.phoneEmail.gymEmail,
+        businessModel: gym.gymBusinessTypeModel.businessModel,
+        businessType: gym.gymBusinessTypeModel.businessType,
         logo: gym.logoWebsite.gymLogo,
-        website: gym.logoWebsite.gymWebsite ?? null,
+        website: gym.logoWebsite.gymWebsite?.length
+          ? gym.logoWebsite.gymWebsite
+          : `${process.env.NEXT_PUBLIC_PROTOCOL}://${gym.sloganSubdomain.subdomain}.${process.env.NEXT_PUBLIC_DOMAIN}`,
         slogan: gym.sloganSubdomain.slogan,
         subdomain: gym.sloganSubdomain.subdomain,
         description: gym.gymType.gymType,
@@ -75,13 +101,11 @@ export const upsertGymInDB = async (gym: GymOnboardingSchemaType) => {
         License_Number: gym.licenseGST.gymLicenseNumber ?? null,
         GST_Number: gym.licenseGST.gymGSTNumber ?? null,
         GST_Registered: !!gym.licenseGST.gymGSTNumber,
-        gymOwner: {
+        owner: {
           connect: {
-            clerkId: gymOwnerId.clerkId,
+            clerkId: user.id,
           },
         },
-        createdAt: new Date(),
-        updatedAt: new Date(),
         membershipTemplates: {
           create: gym.memberships.map((membership) => ({
             planName: membership.planName,
@@ -94,11 +118,16 @@ export const upsertGymInDB = async (gym: GymOnboardingSchemaType) => {
       },
       update: {
         name: gym.gymNameAddress.gymName,
-        address: gym.gymNameAddress.gymAddress,
+        streetAddress: gym.gymNameAddress.streetAddress,
+        city: gym.gymNameAddress.city,
+        state: gym.gymNameAddress.state,
+        pinCode: gym.gymNameAddress.pinCode,
         phoneNumber: gym.phoneEmail.gymPhoneNumber,
         email: gym.phoneEmail.gymEmail,
         logo: gym.logoWebsite.gymLogo,
-        website: gym.logoWebsite.gymWebsite ?? null,
+        website:
+          gym.logoWebsite.gymWebsite ??
+          `${process.env.NEXT_PUBLIC_PROTOCOL}://${gym.sloganSubdomain.subdomain}.${process.env.NEXT_PUBLIC_DOMAIN}`,
         slogan: gym.sloganSubdomain.slogan,
         subdomain: gym.sloganSubdomain.subdomain,
         description: gym.gymType.gymType,
@@ -107,7 +136,6 @@ export const upsertGymInDB = async (gym: GymOnboardingSchemaType) => {
         License_Number: gym.licenseGST.gymLicenseNumber ?? null,
         GST_Number: gym.licenseGST.gymGSTNumber ?? null,
         GST_Registered: !!gym.licenseGST.gymGSTNumber,
-        updatedAt: new Date(),
         membershipTemplates: membershipsAreDifferent
           ? {
               deleteMany: {},
@@ -127,17 +155,20 @@ export const upsertGymInDB = async (gym: GymOnboardingSchemaType) => {
       },
     });
 
-    // If the gym is successfully created/updated, also update user metadata in Clerk
-    if (createOrUpdateGym) {
-      try {
-        const client = await clerkClient();
-        await client.users.updateUserMetadata(gymOwnerId.clerkId, {
-          publicMetadata: { role: "GYM_OWNER" },
-        });
-      } catch (error) {
-        console.error("Error updating Clerk user metadata:", error);
-      }
+    try {
+      await prisma.user.update({
+        where: {
+          clerkId: user.id,
+        },
+        data: {
+          role: "GYM_OWNER",
+        },
+      });
+    } catch (error) {
+      console.log("error in updating user role : ", error);
     }
+
+    console.log("returning upsert gym going back to onboaridng nav");
     return createOrUpdateGym;
   } catch (error) {
     console.error("Error in upsertGymInDB:", error);
@@ -155,29 +186,33 @@ export const getGymDetails = async () => {
         clerkId: user.id,
       },
       select: {
-        ownedGym: {
+        Gym: {
           select: {
             name: true,
             id: true,
+            logo: true,
+            membershipTemplates: true,
+            facilities: true,
+            services: true,
           },
         },
       },
       cacheStrategy: {
-        ttl: 3600, // Cache for 1 hour
-        swr: 600, // Serve stale data for up to 10 minutes while revalidating
-        tags: ["gyms"], // Tagging the cache for invalidation
+        ttl: 3600,
+        swr: 600,
+        tags: ["gyms"],
       },
     });
 
     return gyms;
   } catch (error) {
-    console.log("error in getGymDetails : ", error);
+    console.log("error in getGymDetails:", error);
   }
 };
 
 export const getGymDetailsFromSubdomain = async (subdomain: string) => {
   try {
-    console.log("subdomain in actions : ", subdomain);
+    console.log("subdomain in actions:", subdomain);
 
     const gyms = await prisma.gym.findUnique({
       where: {
@@ -188,16 +223,16 @@ export const getGymDetailsFromSubdomain = async (subdomain: string) => {
         id: true,
       },
       cacheStrategy: {
-        ttl: 3600, // Cache for 1 hour
-        swr: 600, // Serve stale data for up to 10 minutes while revalidating
-        tags: ["gyms"], // Tagging the cache for invalidation
+        ttl: 3600,
+        swr: 600,
+        tags: ["gyms"],
       },
     });
-    console.log("gyms in actions : ", gyms);
 
+    console.log("gyms in actions:", gyms);
     return gyms;
   } catch (error) {
-    console.log("error in getGymDetails : ", error);
+    console.log("error in getGymDetailsFromSubdomain:", error);
   }
 };
 
@@ -211,7 +246,7 @@ export const isAuthorizedGymOwner = async () => {
         clerkId: user.id,
       },
       select: {
-        ownedGym: {
+        Gym: {
           select: {
             id: true,
             subdomain: true,
@@ -220,33 +255,33 @@ export const isAuthorizedGymOwner = async () => {
       },
     });
   } catch (error) {
-    console.log("error in isAuthorizedGymOwner", error);
+    console.log("error in isAuthorizedGymOwner:", error);
   }
 };
 
 export const getAllGyms = async () => {
   "use cache";
 
-  // Set cache expiration to 1 hour
   cacheLife("1 hours");
-
-  // Tag cache entries for gyms
   cacheTag("gyms");
 
   try {
     return await prisma.gym.findMany({
       select: {
         id: true,
-        address: true,
         name: true,
         logo: true,
         facilities: true,
         services: true,
+        streetAddress: true,
+        city: true,
+        state: true,
+        pinCode: true,
       },
       cacheStrategy: {
-        ttl: 3600, // Cache for 1 hour
-        swr: 600, // Serve stale data for up to 10 minutes while revalidating
-        tags: ["gyms"], // Tagging the cache for invalidation
+        ttl: 3600,
+        swr: 600,
+        tags: ["gyms"],
       },
     });
   } catch (error) {

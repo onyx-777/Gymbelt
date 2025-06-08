@@ -5,15 +5,20 @@ import OnboardingHome from "./steps/onboarding_welcome";
 import OnboardingInput from "./steps/onboarding-input";
 import {
   Bike,
+  BriefcaseBusinessIcon,
   CheckIcon,
   ContactIcon,
   DumbbellIcon,
   Globe,
   HomeIcon,
+  IdCardIcon,
+  ActivityIcon,
+  TicketIcon,
 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
+  businessTypeandModelSchema,
   facilitiesSchema,
   gymNameAddressSchema,
   gymTypeSchema,
@@ -34,7 +39,6 @@ import {
   gymTypes,
   services,
 } from "@/constants/gym/features-facilities";
-import { IconStretching } from "@tabler/icons-react";
 import OnboardingSelector from "./steps/onboarding-selector";
 import OnboardingMembershipCarousal from "./steps/onboarding_membership/onboarding_membership-carousal";
 import OnboardingCompleted from "./steps/onboarding-completed";
@@ -68,7 +72,10 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
     resolver: zodResolver(gymNameAddressSchema),
     defaultValues: {
       gymName: "",
-      gymAddress: "",
+      city: "",
+      pinCode: "",
+      state: "",
+      streetAddress: "",
     },
   });
 
@@ -77,6 +84,17 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
     resolver: zodResolver(gymTypeSchema),
     defaultValues: {
       gymType: "",
+    },
+  });
+
+  // 2. Gym Type Form
+  const methodsGymTypeandModel = useForm<
+    z.infer<typeof businessTypeandModelSchema>
+  >({
+    resolver: zodResolver(businessTypeandModelSchema),
+    defaultValues: {
+      businessModel: "",
+      businessType: "",
     },
   });
 
@@ -156,93 +174,84 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
     console.log("Form Data:", data);
 
     if (store.step === 1) {
-      // Store basic info data
       store.setGymNameAddress({
         gymName: data.gymName,
-        gymAddress: data.gymAddress,
+        streetAddress: data.streetAddress,
+        city: data.city,
+        state: data.state,
+        pinCode: data.pinCode,
       });
-
       console.log("gymNameAddress Info Stored:", store.getCompleteData());
     } else if (store.step === 2) {
-      // Store gym type data
       store.setGymType({
         gymType: data.gymType,
       });
-
       console.log("gymType Info Stored:", store.getCompleteData().gymType);
     } else if (store.step === 3) {
-      // Store phone and email data
       store.setPhoneEmail({
         gymPhoneNumber: data.gymPhoneNumber,
         gymEmail: data.gymEmail,
       });
-
       console.log(
         "phoneEmail Info Stored:",
         store.getCompleteData().phoneEmail
       );
     } else if (store.step === 4) {
-      // Store logo and website data (Optional)
+      // ✅ Step 4: Business Type and Model
+      store.setGymBusinessTypeModel({
+        businessModel: data.businessModel,
+        businessType: data.businessType,
+      });
+      console.log(
+        "businessTypeAndModel Info Stored:",
+        store.getCompleteData().gymBusinessTypeModel
+      );
+    } else if (store.step === 6) {
+      // ✅ Step 5: Logo and Website (previously incorrect at step 4)
       store.setLogoWebsite({
         gymLogo: data.gymLogo,
         gymWebsite: data.gymWebsite,
       });
-
       console.log(
         "logoWebsite Info Stored:",
         store.getCompleteData().logoWebsite
       );
     } else if (store.step === 5) {
-      // Store slogan and subdomain data
       store.setSloganSubdomain({
         slogan: data.slogan,
         subdomain: data.subdomain,
       });
-
       console.log(
         "sloganSubdomain Info Stored:",
         store.getCompleteData().sloganSubdomain
       );
-    } else if (store.step === 6) {
-      // Store license number and GST number data
+    } else if (store.step === 7) {
       store.setLicenseGST({
         gymLicenseNumber: data.gymLicenseNumber,
         gymGSTNumber: data.gymGSTNumber,
       });
-
       console.log(
         "licenseGST Info Stored:",
         store.getCompleteData().licenseGST
       );
-    } else if (store.step === 7) {
-      // Store services data
-      store.setServices(data.services);
-
-      console.log("services Info Stored:", store.getCompleteData().services);
     } else if (store.step === 8) {
-      // Store facilities data
+      store.setServices(data.services);
+      console.log("services Info Stored:", store.getCompleteData().services);
+    } else if (store.step === 9) {
       store.setFacilities(data.facilities);
-
       console.log(
         "facilities Info Stored:",
         store.getCompleteData().facilities
       );
-    } else if (store.step === 9) {
-      // Store membership data
-      // store.setMembership({
-      //   membership: data.membership,
-      // });
-
-      store.increaseStep();
-
+    } else if (store.step === 10) {
+      store.setMemberships(data); // Use your actual setter logic here
       console.log("data in handleNextStep : ", data);
-
       console.log(
         "membership Info Stored:",
         store.getCompleteData().memberships
       );
     }
-    // After storing data, you can move to the next step (if needed)
+
     store.increaseStep();
   };
 
@@ -256,16 +265,13 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
           <OnboardingInput
             form={methodsGymNameAddress}
             FirstInputType="text"
-            SecondInputType="text"
-            FirstInputPlaceholder="What do you call your gym?"
+            FirstInputPlaceholder="Registered Gym Name"
             FirstLabel="What is the name of your gym ?"
             FirstRegisterName={"gymName"}
             Icon={HomeIcon}
-            SecondInputPlaceholder="Where is your gym ?"
-            SecondLabel="Where is your gym ?"
-            SecondRegisterName={"gymAddress"}
             componentHeadline="Please tell us about your gym"
             onSubmit={handleNextStep}
+            step1
           />
         );
 
@@ -285,7 +291,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -316,7 +322,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -330,20 +336,33 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
       case 4:
         return (
           <OnboardingInput
-            form={methodsLogoWebsite}
+            form={methodsGymTypeandModel}
             FirstInputType="text"
-            FirstRegisterName={"gymLogo"}
-            FirstLabel="What is the logo of Your Gym ?"
-            FirstInputPlaceholder="Upload your gym logo"
+            FirstRegisterName={"businessModel"}
+            FirstLabel="Select Modal of your gym ?"
+            FirstInputPlaceholder="Select Modal of your gym"
+            Icon={BriefcaseBusinessIcon}
             SecondInputType="text"
-            SecondInputPlaceholder="Enter your website link ?"
-            SecondLabel="Does your gym have a website ?"
-            SecondRegisterName={"gymWebsite"}
-            componentHeadline={<>Digital Identity</>}
+            SecondInputPlaceholder="Select type of your gym"
+            SecondLabel="Select type of your Gym?"
+            SecondRegisterName={"businessType"}
+            componentHeadline={
+              <>
+                Business Info{" "}
+                <div className="text-theme">
+                  {/* Check if gymName is a string or object and display accordingly */}
+                  <TextShimmer
+                    duration={1.2}
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                  >
+                    {gymName.trim() !== "" ? gymName : "Gym"}
+                  </TextShimmer>
+                </div>
+              </>
+            }
             onSubmit={handleNextStep}
           />
         );
-
       case 5:
         return (
           <OnboardingInput
@@ -364,7 +383,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -376,6 +395,37 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
         );
 
       case 6:
+        return (
+          <OnboardingInput
+            form={methodsLogoWebsite}
+            Icon={IdCardIcon}
+            FirstInputType="text"
+            FirstRegisterName={"gymLogo"}
+            FirstLabel="What is the logo of Your Gym ?"
+            FirstInputPlaceholder="Upload your gym logo"
+            SecondInputType="text"
+            SecondInputPlaceholder="Website link ? Leave blank if none"
+            SecondLabel="Does your gym have a website ?"
+            SecondRegisterName={"gymWebsite"}
+            componentHeadline={
+              <>
+                Digital Identity{" "}
+                <div className="text-theme">
+                  {/* Check if gymName is a string or object and display accordingly */}
+                  <TextShimmer
+                    duration={1.2}
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                  >
+                    {gymName.trim() !== "" ? gymName : "Gym"}
+                  </TextShimmer>
+                </div>
+              </>
+            }
+            onSubmit={handleNextStep}
+          />
+        );
+
+      case 7:
         return (
           <OnboardingInput
             form={methodsLicenseGST}
@@ -395,7 +445,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -403,32 +453,6 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
               </>
             }
             onSubmit={handleNextStep}
-          />
-        );
-
-      case 7:
-        return (
-          <OnboardingSelector
-            componentHeadline={
-              <>
-                <div className="text-theme">
-                  {/* Check if gymName is a string or object and display accordingly */}
-                  <TextShimmer
-                    duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
-                  >
-                    {gymName.trim() !== "" ? gymName : "Gym"}
-                  </TextShimmer>
-                </div>
-                Services
-              </>
-            }
-            form={methodsServices}
-            label="services"
-            list={services}
-            onSubmit={handleNextStep}
-            registerName="services"
-            Icon={IconStretching}
           />
         );
 
@@ -441,7 +465,33 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                  >
+                    {gymName.trim() !== "" ? gymName : "Gym"}
+                  </TextShimmer>
+                </div>
+                Services
+              </>
+            }
+            form={methodsServices}
+            label="services"
+            list={services}
+            onSubmit={handleNextStep}
+            registerName="services"
+            Icon={ActivityIcon}
+          />
+        );
+
+      case 9:
+        return (
+          <OnboardingSelector
+            componentHeadline={
+              <>
+                <div className="text-theme">
+                  {/* Check if gymName is a string or object and display accordingly */}
+                  <TextShimmer
+                    duration={1.2}
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -458,19 +508,20 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
           />
         );
 
-      case 9:
+      case 10:
         return (
           <OnboardingMembershipCarousal
             form={methodsMembership}
             onSubmit={handleNextStep}
             registerName="gymMembership"
+            Icon={TicketIcon}
             componentHeadline={
               <>
                 <div className="text-theme">
                   {/* Check if gymName is a string or object and display accordingly */}
                   <TextShimmer
                     duration={1.2}
-                    className="text-4xl leading-16 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
+                    className="text-2xl sm:text-3xl md:text-4xl leading-14 font-medium [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]"
                   >
                     {gymName.trim() !== "" ? gymName : "Gym"}
                   </TextShimmer>
@@ -481,7 +532,7 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
           />
         );
 
-      case 10:
+      case 11:
         return <OnboardingCompleted />;
 
       default:
@@ -522,24 +573,26 @@ const OnboardingComponent = ({ firstName, email }: Props) => {
                 submitForm={handleNextStep}
                 form={
                   store.step === 1
-                    ? methodsGymNameAddress // Type assertion for each step's form
+                    ? methodsGymNameAddress
                     : store.step === 2
                     ? methodsGymType
                     : store.step === 3
                     ? methodsPhoneEmail
                     : store.step === 4
-                    ? methodsLogoWebsite
+                    ? methodsGymTypeandModel
                     : store.step === 5
                     ? methodsSloganSubdomain
                     : store.step === 6
-                    ? methodsLicenseGST
+                    ? methodsLogoWebsite
                     : store.step === 7
-                    ? methodsServices
+                    ? methodsLicenseGST
                     : store.step === 8
-                    ? methodsFacilities
+                    ? methodsServices
                     : store.step === 9
-                    ? methodsMembership // Added missing ternary operator here
-                    : methodsGymNameAddress // Default form for the first step
+                    ? methodsFacilities
+                    : store.step === 10
+                    ? methodsMembership
+                    : methodsGymNameAddress
                 }
               />{" "}
             </motion.div>

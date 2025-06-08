@@ -10,6 +10,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import type * as React from "react";
+import { ScrollArea, ScrollBar } from "./scroll-area";
 
 interface Tag {
   name: string;
@@ -65,79 +66,83 @@ export const MultipleSelect: React.FC<MultipleSelectProps> = ({
 
   return (
     <div className="flex justify-center items-center max-w-md w-full h-fit flex-col gap-2">
-      <motion.div
-        layout
-        ref={containerRef}
-        className="selected mb-2 flex h-fit w-full items-center overflow-x-auto scroll-smooth rounded-md"
-      >
+      <ScrollArea className="w-[22rem] md:w-md whitespace-nowrap rounded-md">
         <motion.div
           layout
-          className="flex items-center p-2 h-full justify-start w-full z-50"
+          ref={containerRef}
+          className="selected mb-2 flex h-fit min-w-fit items-center scroll-smooth rounded-md"
         >
-          <AnimatePresence mode="popLayout">
-            {selected.length > 0 ? (
-              selected.map((tag) => (
-                <Tag
-                  name={`selected-${tag.name}`}
-                  key={`selected-${tag.name}`}
-                  className="w-fit border-none bg-transparent"
+          <motion.div
+            layout
+            className="flex mt-6  bg-input/30 w-full rounded-full m-auto items-center p-2 h-full justify-start min-w-fit z-50 flex-nowrap"
+          >
+            <AnimatePresence mode="popLayout">
+              {selected.length > 0 ? (
+                selected.map((tag) => (
+                  <Tag
+                    name={`selected-${tag.name}`}
+                    key={`selected-${tag.name}`}
+                    className="w-fit border-none  bg-transparent shrink-0"
+                  >
+                    <div className="flex justify-between w-full items-center gap-5 p-1.5 px-5 bg-primary rounded-full text-white">
+                      <motion.span
+                        layout
+                        className="text-nowrap text-sm rounded-full font-medium"
+                      >
+                        {tag.name}
+                      </motion.span>
+                      <p
+                        className="bg-white/30 hover:bg-white/50 rounded-full p-1"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeselect(tag);
+                        }}
+                        aria-label={`Remove ${tag.name}`}
+                      >
+                        <X size={14} />
+                      </p>
+                    </div>
+                  </Tag>
+                ))
+              ) : (
+                <motion.span
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.7 }}
+                  exit={{ opacity: 0 }}
+                  className="dark:text-white w-full text-center flex justify-center items-center h-full  text-neutral-900 text-sm px-2 py-3"
                 >
-                  <div className="flex justify-between w-full items-center gap-5 p-2 px-5 bg-primary rounded-full text-white">
+                  Select tags below
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </motion.div>
+        </motion.div>
+        <ScrollBar orientation="horizontal" className="hidden" />
+      </ScrollArea>
+      {tags.length > selected.length && (
+        <ScrollArea className="max-h-44 flex w-full flex-wrap gap-2 rounded-md">
+          <div className="flex h-fit max-h-44 w-full justify-center items-start flex-wrap gap-2 rounded-md">
+            <AnimatePresence>
+              {tags
+                .filter((tag) => !selected.some((s) => s.name === tag.name))
+                .map((tag) => (
+                  <Tag
+                    name={`available-${tag.name}`}
+                    onClick={() => onSelect(tag)}
+                    key={`available-${tag.name}`}
+                    className="bg-primary/10 h-fit font-medium w-fit border-none rounded-full"
+                  >
                     <motion.span
                       layout
-                      className="text-nowrap text-[16px] rounded-full font-medium"
+                      className="text-nowrap text-sm text-theme px-4 h-fit font-medium rounded-full"
                     >
                       {tag.name}
                     </motion.span>
-                    <p
-                      className="bg-white/30 hover:bg-white/50 rounded-full p-1"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onDeselect(tag);
-                      }}
-                      aria-label={`Remove ${tag.name}`}
-                    >
-                      <X size={14} />
-                    </p>
-                  </div>
-                </Tag>
-              ))
-            ) : (
-              <motion.span
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.7 }}
-                exit={{ opacity: 0 }}
-                className="text-primary text-sm px-2"
-              >
-                Select tags below
-              </motion.span>
-            )}
-          </AnimatePresence>
-        </motion.div>
-      </motion.div>
-
-      {tags.length > selected.length && (
-        <div className="flex w-full h-44 flex-wrap gap-2 rounded-md p-3 overflow-y-auto max-h-[200px]">
-          <AnimatePresence>
-            {tags
-              .filter((tag) => !selected.some((s) => s.name === tag.name))
-              .map((tag) => (
-                <Tag
-                  name={`available-${tag.name}`}
-                  onClick={() => onSelect(tag)}
-                  key={`available-${tag.name}`}
-                  className="bg-primary/10 h-fit font-medium w-fit border-none rounded-full"
-                >
-                  <motion.span
-                    layout
-                    className="text-nowrap text-theme px-4 h-fit font-medium rounded-full"
-                  >
-                    {tag.name}
-                  </motion.span>
-                </Tag>
-              ))}
-          </AnimatePresence>
-        </div>
+                  </Tag>
+                ))}
+            </AnimatePresence>
+          </div>
+        </ScrollArea>
       )}
     </div>
   );

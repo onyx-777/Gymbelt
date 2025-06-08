@@ -2,7 +2,7 @@
 
 import React from "react";
 import { Input } from "@/components/ui/input";
-import GymCard from "@/components/ui/expandable-card-demo-grid";
+import GymCard from "@/components/ui/expandable-gym-card";
 import { AllGyms } from "@/types/gym";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { UserButton } from "@clerk/nextjs";

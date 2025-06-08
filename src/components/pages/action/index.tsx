@@ -1,14 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { motion } from "framer-motion";
 import { Bot, Globe } from "lucide-react";
 import Link from "next/link";
-import { useModal } from "../gym/admin/features/scheduler/providers/modal-context";
-import CustomModal from "../gym/admin/features/scheduler/components/ui/custom-modal";
-import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
-import { TextShimmer } from "@/components/ui/text-shimmer";
-import { Confetti } from "@/components/magicui/confetti";
 
 interface ActionOptions {
   heading: string;
@@ -17,11 +12,7 @@ interface ActionOptions {
   icon: React.ReactNode;
 }
 
-interface Props {
-  userName: string | null;
-}
-
-const UserAction = ({ userName }: Props) => {
+const UserAction = () => {
   const actionOptions: ActionOptions[] = [
     {
       heading: "Automate Your Gym",
@@ -37,41 +28,8 @@ const UserAction = ({ userName }: Props) => {
     },
   ];
 
-  const { setOpen, setClose } = useModal();
-
-  useEffect(() => {
-    setOpen(
-      <>
-        <Confetti className="absolute inset-0 size-full z-[999] pointer-events-none" />
-
-        <CustomModal customizedModal contentClass="w-80 md:w-fit">
-          <div className="flex flex-col gap-1 items-center md:px-0 px-5">
-            <div className=" w-full h-fit flex flex-col gap-8 justify-center items-center">
-              <h1 className="text-5xl w-full font-semibold text-center">
-                Welcome <br />
-                <TextShimmer className="font-semibold [--base-color:theme(colors.blue.600)] [--base-gradient-color:theme(colors.blue.200)] dark:[--base-color:theme(colors.blue.700)] dark:[--base-gradient-color:theme(colors.blue.400)]">
-                  {userName as string}
-                </TextShimmer>
-              </h1>
-              <h3 className="text-lg text-muted-foreground">
-                Glad to have you here — choose how you&apos;d like to get
-                started.
-              </h3>
-              <Button
-                className="w-full p-2 text-white bg-neutral-900 dark:bg-white dark:text-black "
-                size={"lg"}
-                onClick={() => setClose()}
-              >
-                Let&apos;s go
-              </Button>
-            </div>
-          </div>
-        </CustomModal>
-      </>
-    );
-  }, []);
   return (
-    <div className="w-screen h-screen flex justify-center items-center">
+    <div className="w-screen h-[90vh] flex justify-center items-center">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -90,7 +48,7 @@ const UserAction = ({ userName }: Props) => {
               return (
                 <Link
                   href={link}
-                  className="cursor-pointer max-w-md w-full dark:bg-neutral-950 bg-neutral-100 p-10 rounded-2xl"
+                  className="cursor-pointer max-w-md w-full dark:bg-neutral-900 bg-neutral-100 p-10 rounded-2xl"
                   key={heading}
                 >
                   <div className="w-full flex justify-start items-center gap-7">

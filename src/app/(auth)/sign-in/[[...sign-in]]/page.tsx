@@ -32,7 +32,7 @@ export default function SignInPage() {
                   <h1 className="text-2xl font-medium tracking-wide text-black dark:text-white">
                     Sign Up to GymBelt
                   </h1>
-                  <h3 className="mt-2 text-md font-medium text-muted-foreground">
+                  <h3 className="mt-2 text-sm font-medium text-muted-foreground">
                     Choose a method to sign up
                   </h3>
                 </div>

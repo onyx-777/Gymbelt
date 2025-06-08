@@ -22,6 +22,7 @@ import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import { useModal } from "../../providers/modal-context";
 import { X } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface CustomModalProps {
   title?: string;
@@ -47,10 +48,7 @@ export default function CustomModal({
   const [localOpen, setLocalOpen] = useState(defaultOpen);
   const contentRef = useRef<HTMLDivElement>(null);
 
-  const contentClassName = clsx(
-    "overflow-auto rounded-md bg-card",
-    contentClass
-  );
+  const contentClassName = clsx("rounded-md bg-card", contentClass);
 
   // Narrow dependency: only react to isOpen for this specific modal.
   useEffect(() => {
@@ -155,7 +153,7 @@ export default function CustomModal({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4, ease: "anticipate" }}
-              className="fixed h-full md:inset-0 bottom-0 left-0 right-0 z-50 flex bg-black/50 items-end md:items-center justify-center backdrop-blur-xl bg-opacity-50"
+              className="fixed h-full sm:inset-0 bottom-0 left-0 right-0 z-50 flex bg-black/50 items-end sm:items-center justify-center backdrop-blur-xl bg-opacity-50"
               onClick={() => handleOpenChange(false)}
             >
               <motion.div
@@ -164,7 +162,7 @@ export default function CustomModal({
                 exit={{ scale: 0.9, opacity: 0, y: 200 }}
                 transition={{ duration: 0.3, ease: "anticipate" }}
                 className={clsx(
-                  "relative md:p-8 outline-none rounded-xl",
+                  "relative outline-none rounded-xl",
                   contentClassName
                 )}
                 onClick={(e) => e.stopPropagation()}
@@ -179,12 +177,14 @@ export default function CustomModal({
                   <X className="h-4 w-4" />
                 </button> */}
                 {title && (
-                  <h2 className="text-2xl tracking-tighter font-semibold mb-4">
-                    {title}
-                  </h2>
+                  <div className="p-4 -mb-4 w-full font-semibold text-lg tracking-wider text-center rounded-t-full">
+                    Add Membership Plan
+                  </div>
                 )}
                 {subheading && (
-                  <p className="text-muted-foreground mb-4">{subheading}</p>
+                  <p className="text-muted-foreground mb-4 mt-2">
+                    {subheading}
+                  </p>
                 )}
                 <div className="pt-[0.5em] flex flex-col flex-grow">
                   <X
@@ -192,9 +192,11 @@ export default function CustomModal({
                       handleOpenChange(false);
                       console.log("x icon clicked");
                     }}
-                    className="dark:bg-white/20 z-50 cursor-pointer bg-black/10 p-1 rounded-full top-3 right-3 absolute"
+                    className=" absolute -top-3 sm:-right-3 right-0 z-50 cursor-pointer bg-red-600 text-white p-1 rounded-full"
                   />
-                  {children}
+                  <ScrollArea className="h-[77vh] sm:h-[60vh] border-neutral-200 dark:border-neutral-900 border-t-2 p-4 w-screen sm:max-w-[30rem] scroll-smooth">
+                    {children}
+                  </ScrollArea>
                 </div>
               </motion.div>
             </motion.div>

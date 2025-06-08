@@ -7,7 +7,7 @@ export default function Page() {
   // This is the final step in the custom OAuth flow.
   return (
     <>
-      <AuthenticateWithRedirectCallback signUpForceRedirectUrl="/onboarding" />
+      <AuthenticateWithRedirectCallback signUpForceRedirectUrl="/action" />
       <div className="flex w-screen h-screen justify-center items-center gap-4">
         <Spinner size="lg" className="text-white z-50" />
       </div>

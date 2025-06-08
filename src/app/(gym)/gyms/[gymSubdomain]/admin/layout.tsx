@@ -8,6 +8,7 @@ import { Header } from "@/components/pages/gym/admin/components/layout/header";
 import { Search } from "@/components/pages/gym/admin/components/search";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { ProfileDropdown } from "@/components/pages/gym/admin/components/profile-dropdown";
+import { StickyBannerKycPending } from "@/components/global/sticky-banner";
 
 const Layout = async ({ children }: { children: React.ReactNode }) => {
   const defaultOpen = (await cookies()).get("sidebar_state")?.value !== "false";
@@ -28,6 +29,7 @@ const Layout = async ({ children }: { children: React.ReactNode }) => {
             "has-[main.fixed-main]:group-data-[scroll-locked=1]/body:h-svh"
           )}
         >
+          <StickyBannerKycPending />
           <Header>
             <Search />
             <div className="ml-auto flex items-center space-x-4">

@@ -67,7 +67,7 @@ const UploadFile = ({ field, form }: { field: any; form: any }) => {
   return (
     <div
       className={cn(
-        "relative h-56 w-full border-2 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl flex justify-center items-center",
+        "relative h-44 w-full -mt-5 border-2 rounded-xl bg-gray-900/5 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl flex justify-center items-center",
         {
           "ring-blue-900/25 bg-blue-900/10": isDragOver,
         }
@@ -105,7 +105,7 @@ const UploadFile = ({ field, form }: { field: any; form: any }) => {
                       <p className="dark:text-zinc-300">Uploading...</p>
                       <Progress
                         value={uploadProgress}
-                        className="mt-2 w-40 h-2 bg-gray-300"
+                        className="mt-2 w-40 h-2 bg-primary"
                       />
                     </div>
                   ) : isDragOver ? (

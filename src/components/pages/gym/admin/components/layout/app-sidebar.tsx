@@ -11,6 +11,7 @@ import {
   SidebarRail,
 } from "../ui/sidebar";
 import { useEffect, useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const [isMounted, setIsMounted] = useState(false);
@@ -26,9 +27,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={sidebarData.teams} />
       </SidebarHeader>
       <SidebarContent>
-        {sidebarData.navGroups.map((props) => (
-          <NavGroup key={props.title} {...props} />
-        ))}
+        <ScrollArea className="h-screen">
+          {sidebarData.navGroups.map((props) => (
+            <NavGroup key={props.title} {...props} />
+          ))}
+        </ScrollArea>
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={sidebarData.user} />

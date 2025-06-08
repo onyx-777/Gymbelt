@@ -9,7 +9,7 @@ import { MultipleSelect } from "@/components/ui/multiple-select";
 import useStore from "@/context/gym-registration/gym-setup-context";
 
 interface Props {
-  Icon?: React.ElementType;
+  Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   componentHeadline: React.ReactNode;
   label: string;
   registerName: OnboardingFieldNames;
@@ -68,16 +68,16 @@ const OnboardingSelector = ({
     >
       <div className="w-full max-w-lg mx-auto">
         <div className="flex flex-col gap-0 -mb-10">
-          <div className="text-center mb-8">
+          <h1 className="flex flex-col gap-5 justify-center items-center w-full">
             {Icon && (
-              <div className="inline-block p-3 md:p-4 bg-primary/20 rounded-full mb-4">
-                <Icon className="w-8 h-8 md:w-10 md:h-10 text-theme" />
-              </div>
+              <span className="text-theme rounded-full p-5 bg-primary/20">
+                <Icon className="text-primary w-[36px] h-[36px] md:w-[40px] md:h-[40px]" />
+              </span>
             )}
-            <h1 className="text-3xl lg:text-4xl font-semibold">
+            <span className="text-3xl lg:text-4xl w-full font-semibold">
               {componentHeadline}
-            </h1>
-          </div>
+            </span>
+          </h1>
 
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>

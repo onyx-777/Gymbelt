@@ -6,10 +6,22 @@ export const gymNameAddressSchema = z.object({
     .string()
     .min(2, "Gym name must be at least 2 characters")
     .max(100, "Gym name must be less than 100 characters"),
-  gymAddress: z
+  streetAddress: z
     .string()
-    .min(5, "Gym address must be at least 5 characters")
-    .max(255, "Gym address must be less than 255 characters"),
+    .min(5, "Street address must be at least 5 characters")
+    .max(255, "Street address must be less than 255 characters"),
+  city: z
+    .string()
+    .min(2, "City must be at least 2 characters")
+    .max(100, "City must be less than 100 characters"),
+  state: z
+    .string()
+    .min(2, "State must be at least 2 characters")
+    .max(100, "State must be less than 100 characters"),
+  pinCode: z
+    .string()
+    .min(4, "Pin code must be at least 4 characters")
+    .max(10, "Pin code must be less than 10 characters"),
 });
 
 // 2. **Gym Type Schema**:
@@ -18,6 +30,17 @@ export const gymTypeSchema = z.object({
     .string()
     .min(2, "Gym type must be at least 2 characters")
     .max(100, "Gym type must be less than 100 characters"),
+});
+
+export const businessTypeandModelSchema = z.object({
+  businessType: z
+    .string()
+    .min(2, "Business type must be selected")
+    .max(100, "Business type must be less than 100 characters"),
+  businessModel: z
+    .string()
+    .min(2, "Business model must be selected")
+    .max(100, "Business model must be less than 100 characters"),
 });
 
 // 3. **Phone and Email Schema**:
@@ -41,9 +64,11 @@ export const logoWebsiteSchema = z.object({
     .url("Invalid URL format"),
   gymWebsite: z
     .string()
-    .max(255, "Gym website must be less than 255 characters")
-    .url("Invalid URL format")
-    .optional(),
+    .optional()
+    .refine(
+      (val) => !val || z.string().url().safeParse(val).success,
+      "Invalid URL format"
+    ),
 });
 
 // 5. **Slogan and Subdomain Schema**:
@@ -139,6 +164,7 @@ export const gymOnboardingSchema = z.object({
   services: servicesSchema,
   facilities: facilitiesSchema,
   memberships: membershipsSchema,
+  gymBusinessTypeModel: businessTypeandModelSchema,
   // payment: paymentSchema,
 });
 

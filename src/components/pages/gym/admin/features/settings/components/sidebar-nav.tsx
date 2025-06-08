@@ -56,11 +56,11 @@ export default function SidebarNav({
 
       <ScrollArea
         type="always"
-        className="bg-background hidden w-full min-w-40 px-1 py-2 md:block"
+        className="bg-transparent hidden w-full min-w-40 px-1 py-2 md:block"
       >
         <nav
           className={cn(
-            "flex space-x-2 py-1 lg:flex-col lg:space-y-1 lg:space-x-0",
+            "flex space-x-2 lg:flex-col lg:space-y-2 lg:space-x-0",
             className
           )}
           {...props}
@@ -71,9 +71,7 @@ export default function SidebarNav({
               href={item.href}
               className={cn(
                 buttonVariants({ variant: "ghost" }),
-                pathname === item.href
-                  ? "bg-muted hover:bg-muted"
-                  : "hover:bg-transparent hover:underline",
+                pathname === item.href ? "bg-muted" : "hover:bg-muted",
                 "justify-start"
               )}
             >

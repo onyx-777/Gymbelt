@@ -10,7 +10,7 @@ const Page = async () => {
   if (!user) redirect("/sign-in");
   return (
     <ModalProvider>
-      <UserAction userName={user?.firstName} />;
+      <UserAction />
     </ModalProvider>
   );
 };

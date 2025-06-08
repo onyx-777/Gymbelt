@@ -1,7 +1,7 @@
 import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { WebhookEvent } from "@clerk/nextjs/server";
-import { createGymOwnerInDB, deleteGymOwnerInDB } from "@/actions/db/users";
+import { createUserInDB, deleteGymOwnerInDB } from "@/actions/db/users";
 import { Provider } from "@prisma/client/edge";
 
 export async function POST(req: Request) {
@@ -61,16 +61,20 @@ export async function POST(req: Request) {
   console.log("firstName: clerkRes.data : ", clerkRes.data);
 
   if (evt.type === "user.created") {
-    await createGymOwnerInDB({
-      clerkId: clerkRes.data.id,
-      avatar: clerkRes.data.profile_image_url,
-      email: clerkRes.data.email_addresses[0].email_address,
-      firstName: clerkRes.data.first_name,
-      lastName: clerkRes.data.last_name,
-      oauth: clerkRes.data.email_addresses[0].linked_to[0].type as Provider,
-    });
-
-    console.log("gymOwner created in DB:", clerkRes.data.id);
+    try {
+      console.log("inside user.created call");
+      await createUserInDB({
+        clerkId: clerkRes.data.id,
+        avatar: clerkRes.data.profile_image_url,
+        email: clerkRes.data.email_addresses[0].email_address,
+        firstName: clerkRes.data.first_name,
+        lastName: clerkRes.data.last_name,
+        oauth: clerkRes.data.email_addresses[0].linked_to[0].type as Provider,
+      });
+      console.log("user created in DB:", clerkRes.data.id);
+    } catch (error) {
+      console.log("error in user.created webhook event : ", error);
+    }
   }
   if (evt.type === "user.deleted") {
     await deleteGymOwnerInDB(clerkRes.data.id);
